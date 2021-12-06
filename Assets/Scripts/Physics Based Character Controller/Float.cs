@@ -15,9 +15,7 @@ public class Float : MonoBehaviour //TO DO: MERGE INTO PlayerManager.cs AND Play
         terrainLayer = LayerMask.GetMask("Platform");
         gravitationalForce = Physics.gravity.y * rb.mass; // To counteract the excess gravitational force (which would make the actual heigh permanently lower than the desired rideHeight.
 
-        MaintainUpright(new Vector3(Camera.main.transform.position.x, this.transform.position.y, Camera.main.transform.position.z));//, Vector3.up); // Set characters to look at the camera.
-
-        //dampenedOscillator = this.GetComponent<PlayerManager>().dampenedOscillator;
+        MaintainUpright(new Vector3(Camera.main.transform.position.x, this.transform.position.y, Camera.main.transform.position.z)); // Set characters to look at the camera.
     }
 
 
@@ -27,8 +25,6 @@ public class Float : MonoBehaviour //TO DO: MERGE INTO PlayerManager.cs AND Play
     private bool grounded = true;
 
     private Vector3 tempVel = Vector3.forward;
-    [SerializeField]
-    private GameObject debuggingSphere;
 
     private void FixedUpdate()
     {
@@ -76,37 +72,11 @@ public class Float : MonoBehaviour //TO DO: MERGE INTO PlayerManager.cs AND Play
             maintainHeightForce = -Physics.gravity;
         }
 
-
-        //Vector3 acceleration = CalculateAcceleration(prevVel);
-        //prevVel = rb.velocity;
-        //Vector3 tilt = CalculateTilt(acceleration);
-
-        //MaintainUpright(moveInput); // Change this to have yLookAt be the velocity
+        // Look in the direction of velocity
         tempVel = rb.velocity;
         tempVel.y = 0f;
-        MaintainUpright(tempVel);//, tilt);
-        //Debug.Log(tilt);
-
-
+        MaintainUpright(tempVel);
     }
-
-    //Vector3 prevVel;
-    //private Vector3 CalculateAcceleration(Vector3 prevVel)
-    //{
-    //    //Vector3 acceleration = rb.velocity / Time.fixedDeltaTime - prevVel;
-    //    Vector3 acceleration = (rb.velocity - prevVel) / Time.fixedDeltaTime;
-    //    return acceleration;
-    //}
-    //Vector3 CalculateTilt(Vector3 acceleration)
-    //{
-    //    Vector3 tiltAxis = Vector3.Cross(acceleration, Vector3.up);
-    //    tiltAxis.y = 0;
-    //    tiltAxis.z = 0;
-    //    //Quaternion targetRotation = Quaternion.AngleAxis(30, tiltAxis) * transform.rotation;
-    //    Quaternion targetRotation = Quaternion.AngleAxis(30, tiltAxis);
-    //    return targetRotation.eulerAngles;
-    //    //return transform.InverseTransformDirection(targetRotation.eulerAngles);
-    //}
 
     private Vector3 rayDir;
     private RaycastHit rayHit;
@@ -160,14 +130,13 @@ public class Float : MonoBehaviour //TO DO: MERGE INTO PlayerManager.cs AND Play
             Debug.DrawLine(transform.position, transform.position + (rayDir * springForce), Color.yellow);
 
             maintainHeightForce = Vector3.down * springForce;
-            //rb.AddForce(rayDir * springForce);
-            rb.AddForce(maintainHeightForce); // the previous line was causing the capsule to start moving whenever rotation was not upright...
+            rb.AddForce(maintainHeightForce);
 
             // Squash and Stretch stuff.
             Vector3 oscillatorForce = maintainHeightForce;
             dampenedOscillator.AddForce(oscillatorForce);
 
-            // Apply force to objects beneath (?)
+            // Apply force to objects beneath
             if (hitBody != null)
             {
                 hitBody.AddForceAtPosition(rayDir * -springForce, rayHit.point); 
@@ -186,9 +155,6 @@ public class Float : MonoBehaviour //TO DO: MERGE INTO PlayerManager.cs AND Play
         if (yLookAt != Vector3.zero)
         {
             uprightTargetRot = Quaternion.LookRotation(yLookAt, Vector3.up);
-            //uprightTargetRot = Quaternion.Euler(uprightTargetRot.eulerAngles + tilt);
-
-            //debuggingSphere.transform.rotation = Quaternion.LookRotation(yLookAt, Vector3.up);
         }
 
         Quaternion charCurr = transform.rotation; 
@@ -214,14 +180,9 @@ public class Float : MonoBehaviour //TO DO: MERGE INTO PlayerManager.cs AND Play
     public void Move(InputAction.CallbackContext context)
     {
         Vector2 move = context.ReadValue<Vector2>();
-
-        // Turn on/off normalization, depending on the movement type. 'car-type' => off (steering and drive seperate), 'walk-type' => on.
-        if (!useCarStyleMotion)
+        if (move.magnitude > 1)
         {
-            if (move.magnitude > 1)
-            {
-                move = move.normalized;
-            }
+            move = move.normalized;
         }
 
         steer = move[0];
@@ -233,25 +194,17 @@ public class Float : MonoBehaviour //TO DO: MERGE INTO PlayerManager.cs AND Play
 
     public void Jump(InputAction.CallbackContext context)
     {
-        bool jumpDisabled = true;
-        if (jumpDisabled){ // STOPPING JUMPING, TO FOCUS ON EVERYTHING ELSE.
-        }
-        else
-        {
-            jump = context.ReadValue<float>();
+        jump = context.ReadValue<float>();
 
-            if (context.started) // button down
-            {
-                timeSinceJumpPressed = 0f;
-            }
+        if (context.started) // button down
+        {
+            timeSinceJumpPressed = 0f;
         }
     }
 
 
     private Vector3 AdjustInputToCameraAngle(Vector3 moveInput) // Source: https://forum.unity.com/threads/move-character-relative-to-camera-angle.474375/
     {
-        // moveInput: should be in the form '(horizontal, 0, forward)', i.e. '(steer, 0, drive)'.
-
         float facing = Camera.main.transform.eulerAngles.y; // Getting the angle the camera is facing
         return (Quaternion.Euler(0, facing, 0) * moveInput);
     }
@@ -295,7 +248,7 @@ public class Float : MonoBehaviour //TO DO: MERGE INTO PlayerManager.cs AND Play
 
             neededAccel = Vector3.ClampMagnitude(neededAccel, maxAccel);
 
-            //rb.AddForce(Vector3.Scale(neededAccel * rb.mass, MoveForceScale));
+            // Using AddForceAtPosition in order to both move the player and cause the play to lean in the direction of input.
             rb.AddForceAtPosition(Vector3.Scale(neededAccel * rb.mass, MoveForceScale), transform.position + new Vector3(0f, transform.localScale.y * +0.25f, 0f));
         }
     }
@@ -367,7 +320,6 @@ public class Float : MonoBehaviour //TO DO: MERGE INTO PlayerManager.cs AND Play
                         rb.position = new Vector3(rb.position.x, rb.position.y - (rayHit.distance - rideHeight), rb.position.z);
                     }
 
-                    //rb.AddForce(jumpInput * jumpForceFactor, ForceMode.Impulse); // This does not work very consistently... Jump height is affected by initial y velocity and y position relative to RideHeight... Want to adopt a fancier approach (more like PlayerMovement). A cheat fix to ensure consistency has been issued above...
                     rb.AddForce(Vector3.up * jumpForceFactor, ForceMode.Impulse); // This does not work very consistently... Jump height is affected by initial y velocity and y position relative to RideHeight... Want to adopt a fancier approach (more like PlayerMovement). A cheat fix to ensure consistency has been issued above...
 
                     timeSinceJumpPressed = jumpBuffer; // So as to not activate further jumps, in the case that the player lands before the jump timer surpasses the buffer.

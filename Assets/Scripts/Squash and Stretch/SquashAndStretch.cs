@@ -22,8 +22,6 @@ public class SquashAndStretch : MonoBehaviour
 
         newScale += restScale;
         ApplyScale(newScale);
-
-        //Debug.Log(newScale.magnitude);
     }
 
     private Vector3 MaintainVolume(Vector3 vec)
@@ -36,20 +34,10 @@ public class SquashAndStretch : MonoBehaviour
             Vector3 upCross = Vector3.Cross(vec, transform.up);
             Vector3 forwardCross = Vector3.Cross(vec, transform.forward);
 
-            //Debug.Log("==============");
-            //Debug.Log("TRANSFORM UP:" + transform.up);
-            //Debug.Log("VECTOR:" + vec);
-            //Debug.Log("RIGHT CROSS:" + rightCross);
-            //Debug.Log("UP CROSS:" + upCross);
-            //Debug.Log("FORWARD CROSS:" + forwardCross);
-
             // Apply counter scaling to cross products.
             newScale += rightCross / 2f;
             newScale += upCross / 2f;
             newScale += forwardCross / 2f;
-
-            //Debug.Log(newScale);
-
         }
 
         return newScale;
@@ -59,8 +47,6 @@ public class SquashAndStretch : MonoBehaviour
     private Vector3 GetScaleFromOscillator()
     {
         Vector3 newScale = - dampenedOscillator.transform.localPosition * 0.15f;
-
-        //newScale = transform.InverseTransformDirection(newScale);
 
         Vector3 scaleCont = newScale;
         return scaleCont;

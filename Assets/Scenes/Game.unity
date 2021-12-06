@@ -9102,7 +9102,19 @@ MonoBehaviour:
     m_ActionId: df611dfd-f3c7-4fff-9c1a-46c14c289544
     m_ActionName: Player/Fire[/Mouse/leftButton]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1300612965}
+        m_TargetAssemblyTypeName: Float, Assembly-CSharp
+        m_MethodName: Jump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 642dae53-b022-45a0-9f55-0b3068a9a309
     m_ActionName: Player/Jump[/Keyboard/r]
   - m_PersistentCalls:
@@ -9163,7 +9175,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useCameraAdjustedInputs: 1
-  debuggingSphere: {fileID: 0}
   rideHeight: 1.75
   rayToGroundLength: 3
   rideSpringStrength: 100
@@ -9243,7 +9254,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   MoveForceScale: {x: 1, y: 0, z: 1}
   jumpForceFactor: 10
-  fallGravityFactor: 10
+  fallGravityFactor: 5
   lowJumpFactor: 2.5
   jumpBuffer: 0.15
   coyoteTime: 0.25
