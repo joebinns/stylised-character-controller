@@ -103,7 +103,7 @@ public class Float : MonoBehaviour //TO DO: MERGE INTO PlayerManager.cs AND Play
     private bool shouldMaintainHeight = true;
 
     private Vector3 maintainHeightForce;
-    public DampenedOscillator dampenedOscillator;
+    public Oscillator dampenedOscillator;
 
     private void MaintainHeight()
     {
@@ -134,7 +134,7 @@ public class Float : MonoBehaviour //TO DO: MERGE INTO PlayerManager.cs AND Play
 
             // Squash and Stretch stuff.
             Vector3 oscillatorForce = maintainHeightForce;
-            dampenedOscillator.AddForce(oscillatorForce);
+            dampenedOscillator.ApplyForce(oscillatorForce);
 
             // Apply force to objects beneath
             if (hitBody != null)

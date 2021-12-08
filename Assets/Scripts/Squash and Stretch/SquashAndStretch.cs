@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class SquashAndStretch : MonoBehaviour
 {
-    private Rigidbody rb;
-    private Vector3 restScale;
+    private Vector3 _restScale;
 
     void Start()
     {
-        rb = this.GetComponent<Rigidbody>();
-        restScale = transform.localScale;
+        _restScale = transform.localScale;
     }
 
     private void FixedUpdate()
@@ -20,7 +18,7 @@ public class SquashAndStretch : MonoBehaviour
         newScale += GetScaleFromOscillator();
         newScale = MaintainVolume(newScale); // i.e. If squashing in one axis, stretch in the other axes.
 
-        newScale += restScale;
+        newScale += _restScale;
         ApplyScale(newScale);
     }
 
@@ -28,7 +26,7 @@ public class SquashAndStretch : MonoBehaviour
     {
         Vector3 newScale = vec;
 
-        if (vec != Vector3.zero)
+        if (newScale != Vector3.zero)
         {
             Vector3 rightCross = Vector3.Cross(vec, transform.right);
             Vector3 upCross = Vector3.Cross(vec, transform.up);
@@ -43,7 +41,7 @@ public class SquashAndStretch : MonoBehaviour
         return newScale;
     }
 
-    public DampenedOscillator dampenedOscillator;
+    public Oscillator dampenedOscillator;
     private Vector3 GetScaleFromOscillator()
     {
         Vector3 newScale = - dampenedOscillator.transform.localPosition * 0.15f;

@@ -3598,10 +3598,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 389f37ac68ceb374287b55ff05be0177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  centreDisplacement: {x: 0, y: 0, z: 0}
-  velocity: {x: 0, y: 0, z: 0}
-  k: 100
-  b: 2
+  _equilibriumPosition: {x: 0, y: 0, z: 0}
+  _strength: 100
+  _damper: 2
+  _mass: 1
 --- !u!4 &1080291880
 Transform:
   m_ObjectHideFlags: 0
@@ -11244,7 +11244,7 @@ MonoBehaviour:
   m_stencilTestOptions: 2
 --- !u!119 &1895602307
 Projector:
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
