@@ -15,6 +15,9 @@ Additional stylisation inspired by discussions found in [Toyful Games](https://w
 ## Installation
 Open the project in Unity. Open the demo scene located at [*StylisedCharacterController/Assets/Scenes/*](https://github.com/joebinns/StylisedCharacterController/tree/main/Assets/Scenes).
 
+## Usage
+When running the project in the Game view, use <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> and <kbd>Space</kbd> to move and jump the character.
+
 ## Contributing
 1. Fork the repository.
 2. Create a branch for your feature: `git checkout -b my-shiny-feature`.
