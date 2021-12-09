@@ -26,7 +26,7 @@ All contributions big and small are appreciated and encouraged!
 
 ## Credits
 ### Physics based character controller
-Credits for the clever character controller idea goes to [Toyful Games](https://www.toyfulgames.com/). A large portion of this system's code is their own as presented in [this video](https://www.youtube.com/watch?v=qdskE8PJy6Q&ab_channel=ToyfulGames).
+Credits for the clever character controller goes to [Toyful Games](https://www.toyfulgames.com/). A large portion of this system's code is their own as presented in [this video](https://www.youtube.com/watch?v=qdskE8PJy6Q&ab_channel=ToyfulGames).
 
 ### Blob shadows
 The blob shadows use [Nyahoon Games'](http://nyahoon.com/products) asset [Dynamic Shadow Projector for URP](http://nyahoon.com/products/dynamic-shadow-projector).
