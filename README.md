@@ -13,7 +13,7 @@ Additional stylisation inspired by discussions found in [Toyful Games](https://w
 - **Dust particles** appear when characters move, making the character feel more alive.
 
 ## Installation
-Open the project in Unity. Open the demo scene located at PhysicsBasedCharacterController/Assets/Scenes/.
+Open the project in Unity. Open the demo scene located at *PhysicsBasedCharacterController/Assets/Scenes/*.
 
 ## Contributing
 1. Fork the repository.
