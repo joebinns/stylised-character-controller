@@ -30,7 +30,7 @@ Credits for the clever character controller idea goes to [Toyful Games](https://
 The blob shadows use [Nyahoon Games'](http://nyahoon.com/products) asset [Dynamic Shadow Projector for URP](http://nyahoon.com/products/dynamic-shadow-projector).
 
 ### All else
-Is my own.
+Is [my own](https://joebinns.com/).
 
 ## License (MIT License)
 See [this page](https://github.com/joebinns/PhysicsBasedCharacterController/blob/main/LICENSE) for more information.
