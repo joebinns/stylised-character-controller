@@ -51,7 +51,7 @@ public class SquashAndStretch : MonoBehaviour
     {
         Vector3 oscillatorContribution = _oscillator.transform.localPosition * _conversion;
         oscillatorContribution = -oscillatorContribution; // Take the negative of the contribution, in order to get the desired effect of squash/stretch.
-        return oscillatorContribution;
+        return (oscillatorContribution);
     }
 
     /// <summary>

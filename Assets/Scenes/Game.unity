@@ -3598,8 +3598,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 389f37ac68ceb374287b55ff05be0177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _equilibriumPosition: {x: 0, y: 0, z: 0}
-  _strength: 100
+  _localEquilibriumPosition: {x: 0, y: 0, z: 0}
+  _stiffness: 100
   _damper: 2
   _mass: 1
 --- !u!4 &1080291880
@@ -9051,7 +9051,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b134582c92d9fef468ec98cd74fa15b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dampenedOscillator: {fileID: 1080291877}
+  _oscillator: {fileID: 1080291877}
+  _conversion: 0.15
 --- !u!114 &1300612964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9080,8 +9081,8 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1300612965}
-        m_TargetAssemblyTypeName: Float, Assembly-CSharp
-        m_MethodName: Move
+        m_TargetAssemblyTypeName: PhysicsBasedCharacterController, Assembly-CSharp
+        m_MethodName: MoveInputAction
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9104,8 +9105,8 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1300612965}
-        m_TargetAssemblyTypeName: Float, Assembly-CSharp
-        m_MethodName: Jump
+        m_TargetAssemblyTypeName: PhysicsBasedCharacterController, Assembly-CSharp
+        m_MethodName: JumpInputAction
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9174,7 +9175,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab9c9769c022bdb4fa50bb7583f5d2d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useCameraAdjustedInputs: 1
+  _adjustInputsToCameraAngle: 0
+  _characterLookDirection: 0
   rideHeight: 1.75
   rayToGroundLength: 3
   rideSpringStrength: 100
@@ -9182,7 +9184,6 @@ MonoBehaviour:
   dampenedOscillator: {fileID: 1080291877}
   uprightSpringStrength: 40
   uprightSpringDamper: 4
-  useCarStyleMotion: 0
   MaxSpeed: 10
   Acceleration: 200
   MaxAccelForce: 150

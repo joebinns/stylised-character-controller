@@ -80,7 +80,6 @@ public class Oscillator : MonoBehaviour
         Vector3 velocity = deltaVelocity + _previousVelocity; // Calculating the updated velocity.
         _previousVelocity = velocity;
         Vector3 displacement = velocity * Time.fixedDeltaTime; // Kinematics. Velocity is the change-in-position over time.
-
         return (displacement);
     }
 }
