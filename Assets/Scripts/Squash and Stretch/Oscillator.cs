@@ -12,7 +12,7 @@ public class Oscillator : MonoBehaviour
     private Vector3 _previousVelocity = Vector3.zero;
 
     [Tooltip("The local position about which oscillations are centered.")]
-    [SerializeField] private Vector3 _localEquilibriumPosition = Vector3.zero;
+    public Vector3 localEquilibriumPosition = Vector3.zero;
     [Tooltip("The greater the stiffness constant, the lesser the amplitude of oscillations.")]
     [SerializeField] private float _stiffness = 100f;
     [Tooltip("The greater the damper constant, the faster that oscillations will dissapear.")]
@@ -36,7 +36,7 @@ public class Oscillator : MonoBehaviour
     /// <returns>Damped restorative force of the oscillator.</returns>
     private Vector3 CalculateRestoringForce()
     {
-        Vector3 displacement = transform.localPosition - _localEquilibriumPosition; // Displacement from the rest point. Displacement is the difference in position.
+        Vector3 displacement = transform.localPosition - localEquilibriumPosition; // Displacement from the rest point. Displacement is the difference in position.
         Vector3 deltaDisplacement = displacement - _previousDisplacement;
         _previousDisplacement = displacement;
         Vector3 velocity = deltaDisplacement / Time.fixedDeltaTime; // Kinematics. Velocity is the change-in-position over time.

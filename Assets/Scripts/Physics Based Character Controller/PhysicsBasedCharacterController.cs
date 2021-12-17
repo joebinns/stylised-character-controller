@@ -24,7 +24,7 @@ public class PhysicsBasedCharacterController : MonoBehaviour
     [SerializeField] private float rideSpringDamper = 5f; // rideSpringDampener: dampener of spring. (?)
     private bool shouldMaintainHeight = true;
     private Vector3 maintainHeightForce;
-    public Oscillator dampenedOscillator;
+    [SerializeField] private Oscillator _squashAndStretchOcillator;
 
     [Header("Upright Spring:")]
     [SerializeField] private float uprightSpringStrength = 40f;
@@ -154,7 +154,7 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         return (rayHitGround, rayHit);
     }
 
-    private void MaintainHeight(RaycastHit rayHit)
+    private void MaintainHeight(RaycastHit rayHit)  // hmmm. it's just an oscillator...
     {
         Vector3 vel = rb.velocity;
 
@@ -181,7 +181,7 @@ public class PhysicsBasedCharacterController : MonoBehaviour
 
         // Squash and Stretch stuff.
         Vector3 oscillatorForce = maintainHeightForce;
-        dampenedOscillator.ApplyForce(oscillatorForce);
+        _squashAndStretchOcillator.ApplyForce(oscillatorForce);
 
         // Apply force to objects beneath
         if (hitBody != null)
