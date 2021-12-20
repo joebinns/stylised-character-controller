@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Dampened oscillator using the objects transform local position.
+/// A dampened oscillator using the objects transform local position.
 /// </summary>
 [DisallowMultipleComponent]
 public class Oscillator : MonoBehaviour
@@ -12,7 +12,7 @@ public class Oscillator : MonoBehaviour
     private Vector3 _previousVelocity = Vector3.zero;
 
     [Tooltip("The local position about which oscillations are centered.")]
-    public Vector3 localEquilibriumPosition = Vector3.zero;
+    [SerializeField] public Vector3 localEquilibriumPosition = Vector3.zero;
     [Tooltip("The greater the stiffness constant, the lesser the amplitude of oscillations.")]
     [SerializeField] private float _stiffness = 100f;
     [Tooltip("The greater the damper constant, the faster that oscillations will dissapear.")]
@@ -63,9 +63,17 @@ public class Oscillator : MonoBehaviour
     /// <param name="force">The force to be applied.</param>
     public void ApplyForce(Vector3 force)
     {
-        Vector3 displacement = CalculateDisplacementDueToForce(force);
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.AddForce(force);
+        }
+        else
+        {
+            Vector3 displacement = CalculateDisplacementDueToForce(force);
 
-        transform.localPosition += displacement;
+            transform.localPosition += displacement;
+        }
     }
 
     /// <summary>
@@ -83,14 +91,17 @@ public class Oscillator : MonoBehaviour
         return (displacement);
     }
 
+    /// <summary>
+    /// Draws the oscillator bob (sphere) and the equilibrium (wire sphere).
+    /// </summary>
     void OnDrawGizmos()
     {
         Vector3 bob = transform.localPosition;
         Vector3 equilibrium = localEquilibriumPosition;
         if (transform.parent != null)
         {
-            bob = transform.parent.position + transform.localPosition;
-            equilibrium = transform.parent.position + localEquilibriumPosition;
+            bob += transform.parent.position;
+            equilibrium += transform.parent.position;
         }
 
         Gizmos.color = Color.green;
