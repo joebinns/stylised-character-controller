@@ -82,4 +82,24 @@ public class Oscillator : MonoBehaviour
         Vector3 displacement = velocity * Time.fixedDeltaTime; // Kinematics. Velocity is the change-in-position over time.
         return (displacement);
     }
+
+    void OnDrawGizmos()
+    {
+        Vector3 bob = transform.localPosition;
+        Vector3 equilibrium = localEquilibriumPosition;
+        if (transform.parent != null)
+        {
+            bob = transform.parent.position + transform.localPosition;
+            equilibrium = transform.parent.position + localEquilibriumPosition;
+        }
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(equilibrium, 0.75f);
+
+        if (Vector3.Magnitude(bob - equilibrium) > 0.025f)
+        {
+            Gizmos.color = Color.yellow;
+        }
+        Gizmos.DrawSphere(bob, 0.75f);
+    }
 }

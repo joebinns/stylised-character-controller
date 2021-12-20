@@ -172,15 +172,15 @@ public class PhysicsBasedCharacterController : MonoBehaviour
 
         float currHeight = rayHit.distance - rideHeight;
 
-        float springForce = gravitationalForce + (currHeight * rideSpringStrength) - (relVel * rideSpringDamper);
+        float springForce = (currHeight * rideSpringStrength) - (relVel * rideSpringDamper);
 
         Debug.DrawLine(transform.position, transform.position + (rayDir * springForce), Color.yellow);
 
-        maintainHeightForce = Vector3.down * springForce;
+        maintainHeightForce = Vector3.down * (springForce + gravitationalForce);
         rb.AddForce(maintainHeightForce);
 
         // Squash and Stretch stuff.
-        Vector3 oscillatorForce = maintainHeightForce;
+        Vector3 oscillatorForce = springForce * Vector3.down;
         _squashAndStretchOcillator.ApplyForce(oscillatorForce);
 
         // Apply force to objects beneath
