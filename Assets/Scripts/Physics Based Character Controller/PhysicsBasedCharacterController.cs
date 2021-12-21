@@ -16,6 +16,7 @@ public class PhysicsBasedCharacterController : MonoBehaviour
     [Header("Other:")]
     [SerializeField] private bool _adjustInputsToCameraAngle = false;
     [SerializeField] private LayerMask _terrainLayer;
+    //[SerializeField] private RigidParent _rigidParent;
 
 
     private bool _shouldMaintainHeight = true;
@@ -71,6 +72,7 @@ public class PhysicsBasedCharacterController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         _gravitationalForce = Physics.gravity * _rb.mass; // To counteract the excess gravitational force (which would make the actual heigh permanently lower than the desired rideHeight.
+        //_rigidParent = transform.parent.GetComponent<RigidParent>();
 
         MaintainUpright(new Vector3(Camera.main.transform.position.x, this.transform.position.y, Camera.main.transform.position.z)); // Set characters to look at the camera.
     }
@@ -137,6 +139,8 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         }
 
         (bool rayHitGround, RaycastHit rayHit) = RaycastToGround();
+
+        SetPlatform(rayHit);
 
         bool grounded = CheckIfGrounded(rayHitGround, rayHit);
 
@@ -265,8 +269,25 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         return (Quaternion.Euler(0, facing, 0) * moveInput);
     }
 
+    [SerializeField] private Transform platform;
 
+    private void SetPlatform(RaycastHit rayHit) // NOT WORKING PROPERLY...!!
+    {
+        if (rayHit.transform != null)
+        {
+            platform = rayHit.transform.parent.GetComponentInChildren<RigidParent>().transform;
+            if (platform != null)
+            {
+                this.transform.SetParent(platform);
+            }
 
+            else
+            {
+                this.transform.SetParent(null);
+            }
+        }
+
+    }
 
     private void CharacterMove(Vector3 moveInput, RaycastHit rayHit) 
     {
@@ -280,7 +301,7 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         Rigidbody hitBody = rayHit.rigidbody;
         if (hitBody != null)
         {
-            otherVel = hitBody.velocity;
+            //otherVel = hitBody.velocity;
         }
 
         _m_GoalVel = Vector3.MoveTowards(_m_GoalVel,
