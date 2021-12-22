@@ -269,24 +269,32 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         return (Quaternion.Euler(0, facing, 0) * moveInput);
     }
 
-    [SerializeField] private Transform platform;
-
     private void SetPlatform(RaycastHit rayHit) // NOT WORKING PROPERLY...!!
     {
-        if (rayHit.transform != null)
+        try
         {
-            platform = rayHit.transform.parent.GetComponentInChildren<RigidParent>().transform;
-            if (platform != null)
-            {
-                this.transform.SetParent(platform);
-            }
-
-            else
-            {
-                this.transform.SetParent(null);
-            }
+            RigidPlatform rigidPlatform = rayHit.transform.GetComponent<RigidPlatform>();
+            RigidParent rigidParent = rigidPlatform.rigidParent;
+            transform.SetParent(rigidParent.transform);
+        }
+        catch
+        {
+            transform.SetParent(null);
         }
 
+        //if (rayHit.transform != null)
+        //{
+        //    platform = rayHit.transform.parent.GetComponentInChildren<RigidParent>().transform;
+        //    if (platform != null)
+        //    {
+        //        this.transform.SetParent(platform);
+        //    }
+
+        //    else
+        //    {
+        //        this.transform.SetParent(null);
+        //    }
+        //}
     }
 
     private void CharacterMove(Vector3 moveInput, RaycastHit rayHit) 
