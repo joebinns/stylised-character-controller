@@ -168,7 +168,7 @@ public class PhysicsBasedCharacterController : MonoBehaviour
 
         Vector3 lookDirection = GetLookDirection(_characterLookDirection);
 
-        MaintainUpright(lookDirection);
+        MaintainUpright(lookDirection, rayHit);
     }
 
 
@@ -219,33 +219,64 @@ public class PhysicsBasedCharacterController : MonoBehaviour
     }
 
 
-    private Quaternion lastTargetRot;
-    private Vector3 platformInitRot;
+    public Quaternion _lastTargetRot;
+    public Vector3 _platformInitRot;
+    public Vector3 deltaPlatformRot;
+    private bool offPlatform;
 
-    private void MaintainUpright(Vector3 yLookAt)
+
+    private void MaintainUpright(Vector3 yLookAt, RaycastHit rayHit = new RaycastHit())
     {
+        if (offPlatform)
+        {
+            _lastTargetRot = _uprightTargetRot;
+
+            try
+            {
+                _platformInitRot = transform.parent.rotation.eulerAngles;
+            }
+            catch
+            {
+                _platformInitRot = Vector3.zero;
+            }
+        }
+        if (rayHit.rigidbody == null)
+        {
+            offPlatform = true;
+        }
+        else
+        {
+            offPlatform = false;
+        }
+
+
         //if (Vector3.Magnitude(yLookAt) > 0.025f)
         if (yLookAt != Vector3.zero)
         {
             _uprightTargetRot = Quaternion.LookRotation(yLookAt, Vector3.up);
-            lastTargetRot = _uprightTargetRot;
+            _lastTargetRot = _uprightTargetRot;
+
             try
             {
-                platformInitRot = transform.parent.rotation.eulerAngles;
+                _platformInitRot = transform.parent.rotation.eulerAngles;
             }
             catch
             {
-                platformInitRot = Vector3.zero;
+                _platformInitRot = Vector3.zero;
             }
         }
         else
         {
             try
             {
-                //_uprightTargetRot = Quaternion.Euler(transform.parent.rotation.eulerAngles);
+                Vector3 platformRot = transform.parent.rotation.eulerAngles;
+                deltaPlatformRot = platformRot - _platformInitRot;
+                float yAngle = _lastTargetRot.eulerAngles.y + deltaPlatformRot.y;
+                _uprightTargetRot = Quaternion.Euler(new Vector3(0f, yAngle, 0f));
 
-                Vector3 deltaPlatformRot = new Vector3(0f, transform.parent.rotation.eulerAngles.y - platformInitRot.y, 0f);
-                _uprightTargetRot = Quaternion.Euler(lastTargetRot.eulerAngles + deltaPlatformRot);
+                //_uprightTargetRot = Quaternion.Euler(new Vector3(platformRot.z * -Mathf.Sin(yAngle * Mathf.Deg2Rad) + platformRot.x * Mathf.Cos(yAngle * Mathf.Deg2Rad),
+                //yAngle,
+                //platformRot.z * Mathf.Cos(yAngle * Mathf.Deg2Rad) + platformRot.x * Mathf.Sin(yAngle * Mathf.Deg2Rad)));
             }
             catch
             {
@@ -263,6 +294,7 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         rotAxis.Normalize();
 
         float rotRadians = rotDegrees * Mathf.Deg2Rad;
+
         _rb.AddTorque((rotAxis * (rotRadians * _uprightSpringStrength)) - (_rb.angularVelocity * _uprightSpringDamper));
     }
     
