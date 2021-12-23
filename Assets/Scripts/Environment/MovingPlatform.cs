@@ -22,5 +22,8 @@ public class MovingPlatform : MonoBehaviour
         _t += Time.fixedDeltaTime;
         float theta = _t * Mathf.PI / 180f * rateOfRotation;
         _oscillator.localEquilibriumPosition = new Vector3(radiusOfRotation * -Mathf.Cos(theta), 1f, radiusOfRotation * Mathf.Sin(theta));
+
+
+        transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles + new Vector3(0f, Time.fixedDeltaTime * rateOfRotation, 0f));
     }
 }

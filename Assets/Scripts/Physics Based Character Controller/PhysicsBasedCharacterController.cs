@@ -219,6 +219,8 @@ public class PhysicsBasedCharacterController : MonoBehaviour
     }
 
 
+    private Quaternion lastTargetRot;
+    private Vector3 platformInitRot;
 
     private void MaintainUpright(Vector3 yLookAt)
     {
@@ -226,6 +228,29 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         if (yLookAt != Vector3.zero)
         {
             _uprightTargetRot = Quaternion.LookRotation(yLookAt, Vector3.up);
+            lastTargetRot = _uprightTargetRot;
+            try
+            {
+                platformInitRot = transform.parent.rotation.eulerAngles;
+            }
+            catch
+            {
+                platformInitRot = Vector3.zero;
+            }
+        }
+        else
+        {
+            try
+            {
+                //_uprightTargetRot = Quaternion.Euler(transform.parent.rotation.eulerAngles);
+
+                Vector3 deltaPlatformRot = new Vector3(0f, transform.parent.rotation.eulerAngles.y - platformInitRot.y, 0f);
+                _uprightTargetRot = Quaternion.Euler(lastTargetRot.eulerAngles + deltaPlatformRot);
+            }
+            catch
+            {
+
+            }
         }
 
         Quaternion currentRot = transform.rotation; 
@@ -240,7 +265,7 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         float rotRadians = rotDegrees * Mathf.Deg2Rad;
         _rb.AddTorque((rotAxis * (rotRadians * _uprightSpringStrength)) - (_rb.angularVelocity * _uprightSpringDamper));
     }
-
+    
     private Vector3 _moveInput;
 
     public void MoveInputAction(InputAction.CallbackContext context)
