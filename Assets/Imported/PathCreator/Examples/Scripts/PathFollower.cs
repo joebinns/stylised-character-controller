@@ -8,9 +8,15 @@ namespace PathCreation.Examples
     {
         public PathCreator pathCreator;
         public EndOfPathInstruction endOfPathInstruction;
-        public float speed = 5;
-        float distanceTravelled;
-        public bool rotate;
+        //public float maxSpeed = 5;
+        public float distanceTravelled;
+        public float length;
+        public Vector3 rotateScale = Vector3.one;
+
+        //private int direction = 1;
+
+        private float _t;
+        public float period = 10f;
 
         void Start() {
             if (pathCreator != null)
@@ -22,15 +28,36 @@ namespace PathCreation.Examples
 
         void FixedUpdate()
         {
+            _t += Time.fixedDeltaTime;
             if (pathCreator != null)
             {
-                distanceTravelled += speed * Time.deltaTime;
-                Vector3 pos = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
+                float ratio = _t / period;
+                float theta = ratio * 2f * Mathf.PI;
 
-                if (rotate)
+                //distanceTravelled += pathCreator.path.length * Time.fixedDeltaTime *  Mathf.Sin(theta);
+
+                distanceTravelled = pathCreator.path.length * 0.5f * (1 - Mathf.Sin(theta + Mathf.PI/2f));
+
+                //Debug.Log(distance);
+
+                Vector3 pos = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
+                Vector3 rot = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction).eulerAngles;
+
+                length = pathCreator.path.length;
+
+                Vector3 tempRot = Vector3.zero;
+                for (int i = 0; i < 3; i++)
                 {
-                    transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
+                    if (rotateScale[i] == 1)
+                    {
+                        tempRot[i] = rot[i];
+                    }
+                    else
+                    {
+                        tempRot[i] = transform.rotation[i];
+                    }
                 }
+                transform.rotation = Quaternion.Euler(tempRot);
                 if (GetComponent<Oscillator>())
                 {
                     Oscillator oscillator = GetComponent<Oscillator>();
