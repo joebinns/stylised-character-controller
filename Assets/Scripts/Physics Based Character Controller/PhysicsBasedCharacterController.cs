@@ -214,7 +214,7 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         // Apply force to objects beneath
         if (hitBody != null)
         {
-            hitBody.AddForceAtPosition(_rayDir * -springForce, rayHit.point);
+            hitBody.AddForceAtPosition(-maintainHeightForce, rayHit.point);
         }  
     }
 
