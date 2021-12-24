@@ -34,6 +34,9 @@ Credits for the clever character controller goes to [Toyful Games](https://www.t
 ### Blob shadows
 The blob shadows use [Nyahoon Games'](http://nyahoon.com/products) asset [Dynamic Shadow Projector for URP](http://nyahoon.com/products/dynamic-shadow-projector).
 
+## Path Creator
+The platforms follow paths using Sebastian Lague's very useful [Path Creator](https://github.com/SebLague/Path-Creator). This has been adapted to work with [*Oscillator.cs*].
+
 ### All else
 Is [my own](https://joebinns.com/).
 
