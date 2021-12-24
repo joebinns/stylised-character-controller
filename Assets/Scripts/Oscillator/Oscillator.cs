@@ -13,12 +13,14 @@ public class Oscillator : MonoBehaviour
 
     [Tooltip("The local position about which oscillations are centered.")]
     [SerializeField] public Vector3 localEquilibriumPosition = Vector3.zero;
+    public Vector3 forceScale = Vector3.one;
     [Tooltip("The greater the stiffness constant, the lesser the amplitude of oscillations.")]
     [SerializeField] private float _stiffness = 100f;
     [Tooltip("The greater the damper constant, the faster that oscillations will dissapear.")]
     [SerializeField] private float _damper = 2f;
     [Tooltip("The greater the mass, the lesser the amplitude of oscillations.")]
     [SerializeField] private float _mass = 1f;
+
 
     /// <summary>
     /// Update the position of the oscillator, by calculating and applying the restorative force.
@@ -66,13 +68,12 @@ public class Oscillator : MonoBehaviour
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null)
         {
-            rb.AddForce(force);
+            rb.AddForce(Vector3.Scale(force, forceScale)); 
         }
         else
         {
             Vector3 displacement = CalculateDisplacementDueToForce(force);
-
-            transform.localPosition += displacement;
+            transform.localPosition += Vector3.Scale(displacement, forceScale);
         }
     }
 

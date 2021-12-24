@@ -219,9 +219,8 @@ public class PhysicsBasedCharacterController : MonoBehaviour
     }
 
 
-    public Quaternion _lastTargetRot;
-    public Vector3 _platformInitRot;
-    public Vector3 deltaPlatformRot;
+    private Quaternion _lastTargetRot;
+    private Vector3 _platformInitRot;
     private bool offPlatform;
 
 
@@ -270,7 +269,7 @@ public class PhysicsBasedCharacterController : MonoBehaviour
             try
             {
                 Vector3 platformRot = transform.parent.rotation.eulerAngles;
-                deltaPlatformRot = platformRot - _platformInitRot;
+                Vector3 deltaPlatformRot = platformRot - _platformInitRot;
                 float yAngle = _lastTargetRot.eulerAngles.y + deltaPlatformRot.y;
                 _uprightTargetRot = Quaternion.Euler(new Vector3(0f, yAngle, 0f));
 
