@@ -1,5 +1,5 @@
 # Stylised Character Controller
-A stylised physics based character controller for Unity 3D.
+A stylised physics based character controller made in Unity 3D.
 
 The character controller is based on the approach devised by [Toyful Games](https://www.toyfulgames.com/) for [Very Very Valet](https://www.toyfulgames.com/very-very-valet). In [this video](https://www.youtube.com/watch?v=qdskE8PJy6Q&ab_channel=ToyfulGames) from the team's development blog, the various techniques for the movement are outlined and explained. The video also provides snippets of code, though incomplete in places. The source code was not provided by [Toyful Games](https://www.toyfulgames.com/) due to it being tied up in the complex otherworkings of [Very Very Valet](https://www.toyfulgames.com/very-very-valet). This project aims to be an independent pure re-creation of their physics based character controller.
 
