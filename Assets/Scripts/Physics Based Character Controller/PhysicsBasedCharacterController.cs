@@ -16,7 +16,6 @@ public class PhysicsBasedCharacterController : MonoBehaviour
     [Header("Other:")]
     [SerializeField] private bool _adjustInputsToCameraAngle = false;
     [SerializeField] private LayerMask _terrainLayer;
-    //[SerializeField] private RigidParent _rigidParent;
 
 
     private bool _shouldMaintainHeight = true;
@@ -31,6 +30,9 @@ public class PhysicsBasedCharacterController : MonoBehaviour
 
     private enum lookDirectionOptions { velocity, acceleration, moveInput };
     private Quaternion _uprightTargetRot = Quaternion.identity; // Adjust y value to match the desired direction to face.
+    private Quaternion _lastTargetRot;
+    private Vector3 _platformInitRot;
+    private bool didLastRayHit;
 
     [Header("Upright Spring:")]
     [SerializeField] private lookDirectionOptions _characterLookDirection = lookDirectionOptions.velocity;
@@ -38,6 +40,10 @@ public class PhysicsBasedCharacterController : MonoBehaviour
     [SerializeField] private float _uprightSpringDamper = 5f;
 
 
+    private Vector3 _moveInput;
+    private float _speedFactor = 1f;
+    private float _maxAccelForceFactor = 1f;
+    private Vector3 _m_GoalVel = Vector3.zero;
 
     [Header("Movement:")]
     [SerializeField] private float _maxSpeed = 8f;
@@ -46,24 +52,21 @@ public class PhysicsBasedCharacterController : MonoBehaviour
     [SerializeField] private AnimationCurve _accelerationFactorFromDot;
     [SerializeField] private AnimationCurve _maxAccelerationForceFactorFromDot;
     [SerializeField] private Vector3 _moveForceScale = new Vector3(1f, 0f, 1f);
-    private float _speedFactor = 1f;
-    private float _maxAccelForceFactor = 1f;
-    private Vector3 _m_GoalVel = Vector3.zero;
 
 
-
-    [Header("Jump:")]
-    [SerializeField] private float _jumpForceFactor = 10f;
-    [SerializeField] private float _fallGravityFactor = 10f; // typically > 1f (i.e. 5f). Only using fallGravityFactor or riseGravityFactor one at a time.
-    [SerializeField] private float _lowJumpFactor = 2.5f;
-    [SerializeField] private float _jumpBuffer = 0.15f; // Note, jumpBuffer shouldn't really exceed the time of the jump.
-    [SerializeField] private float _coyoteTime = 0.25f;
+    private Vector3 _jumpInput;
     private float _timeSinceJumpPressed = 0f;
     private float _timeSinceUngrounded = 0f;
     private float _timeSinceJump = 0f;
     private bool _jumpReady = true;
     private bool _isJumping = false;
 
+    [Header("Jump:")]
+    [SerializeField] private float _jumpForceFactor = 10f;
+    [SerializeField] private float _fallGravityFactor = 10f; // typically > 1f (i.e. 5f).
+    [SerializeField] private float _lowJumpFactor = 2.5f;
+    [SerializeField] private float _jumpBuffer = 0.15f; // Note, jumpBuffer shouldn't really exceed the time of the jump.
+    [SerializeField] private float _coyoteTime = 0.25f;
 
     /// <summary>
     /// 
@@ -71,10 +74,7 @@ public class PhysicsBasedCharacterController : MonoBehaviour
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
-        _gravitationalForce = Physics.gravity * _rb.mass; // To counteract the excess gravitational force (which would make the actual heigh permanently lower than the desired rideHeight.
-        //_rigidParent = transform.parent.GetComponent<RigidParent>();
-
-        MaintainUpright(new Vector3(Camera.main.transform.position.x, this.transform.position.y, Camera.main.transform.position.z)); // Set characters to look at the camera.
+        _gravitationalForce = Physics.gravity * _rb.mass;
     }
 
     /// <summary>
@@ -135,15 +135,13 @@ public class PhysicsBasedCharacterController : MonoBehaviour
     {
         if (_adjustInputsToCameraAngle)
         {
-            _moveInput = AdjustInputToCameraAngle(_moveInput);
+            _moveInput = AdjustInputToFaceCamera(_moveInput);
         }
 
         (bool rayHitGround, RaycastHit rayHit) = RaycastToGround();
-
         SetPlatform(rayHit);
 
         bool grounded = CheckIfGrounded(rayHitGround, rayHit);
-
         if (grounded == true)
         {
             _timeSinceUngrounded = 0f;
@@ -167,14 +165,11 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         }          
 
         Vector3 lookDirection = GetLookDirection(_characterLookDirection);
-
         MaintainUpright(lookDirection, rayHit);
     }
 
-
-    // Cast raycast to get distance to the ground.
     /// <summary>
-    /// 
+    /// Perfom raycast to get distance to the ground.
     /// </summary>
     /// <returns></returns>
     private (bool, RaycastHit) RaycastToGround()
@@ -218,18 +213,16 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         }  
     }
 
-
-    private Quaternion _lastTargetRot;
-    private Vector3 _platformInitRot;
-    private bool offPlatform;
-
-
-    private void MaintainUpright(Vector3 yLookAt, RaycastHit rayHit = new RaycastHit())
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="yLookAt"></param>
+    /// <param name="rayHit"></param>
+    private void CalculateTargetRotation(Vector3 yLookAt, RaycastHit rayHit = new RaycastHit())
     {
-        if (offPlatform)
+        if (didLastRayHit)
         {
             _lastTargetRot = _uprightTargetRot;
-
             try
             {
                 _platformInitRot = transform.parent.rotation.eulerAngles;
@@ -241,20 +234,17 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         }
         if (rayHit.rigidbody == null)
         {
-            offPlatform = true;
+            didLastRayHit = true;
         }
         else
         {
-            offPlatform = false;
+            didLastRayHit = false;
         }
 
-
-        //if (Vector3.Magnitude(yLookAt) > 0.025f)
         if (yLookAt != Vector3.zero)
         {
             _uprightTargetRot = Quaternion.LookRotation(yLookAt, Vector3.up);
             _lastTargetRot = _uprightTargetRot;
-
             try
             {
                 _platformInitRot = transform.parent.rotation.eulerAngles;
@@ -272,16 +262,22 @@ public class PhysicsBasedCharacterController : MonoBehaviour
                 Vector3 deltaPlatformRot = platformRot - _platformInitRot;
                 float yAngle = _lastTargetRot.eulerAngles.y + deltaPlatformRot.y;
                 _uprightTargetRot = Quaternion.Euler(new Vector3(0f, yAngle, 0f));
-
-                //_uprightTargetRot = Quaternion.Euler(new Vector3(platformRot.z * -Mathf.Sin(yAngle * Mathf.Deg2Rad) + platformRot.x * Mathf.Cos(yAngle * Mathf.Deg2Rad),
-                //yAngle,
-                //platformRot.z * Mathf.Cos(yAngle * Mathf.Deg2Rad) + platformRot.x * Mathf.Sin(yAngle * Mathf.Deg2Rad)));
             }
             catch
             {
 
             }
         }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="yLookAt"></param>
+    /// <param name="rayHit"></param>
+    private void MaintainUpright(Vector3 yLookAt, RaycastHit rayHit = new RaycastHit())
+    {
+        CalculateTargetRotation(yLookAt, rayHit);
 
         Quaternion currentRot = transform.rotation; 
         Quaternion toGoal = MathsUtils.ShortestRotation(_uprightTargetRot, currentRot);
@@ -297,16 +293,20 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         _rb.AddTorque((rotAxis * (rotRadians * _uprightSpringStrength)) - (_rb.angularVelocity * _uprightSpringDamper));
     }
     
-    private Vector3 _moveInput;
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="context"></param>
     public void MoveInputAction(InputAction.CallbackContext context)
     {
         Vector2 moveContext = context.ReadValue<Vector2>();
         _moveInput = new Vector3(moveContext.x, 0, moveContext.y); 
     }
 
-    private Vector3 _jumpInput;
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="context"></param>
     public void JumpInputAction(InputAction.CallbackContext context)
     {
         float jumpContext = context.ReadValue<float>();
@@ -318,14 +318,22 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         }
     }
 
-
-    private Vector3 AdjustInputToCameraAngle(Vector3 moveInput) // Source: https://forum.unity.com/threads/move-character-relative-to-camera-angle.474375/
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="moveInput"></param>
+    /// <returns></returns>
+    private Vector3 AdjustInputToFaceCamera(Vector3 moveInput)
     {
-        float facing = Camera.main.transform.eulerAngles.y; // Getting the angle the camera is facing
+        float facing = Camera.main.transform.eulerAngles.y;
         return (Quaternion.Euler(0, facing, 0) * moveInput);
     }
 
-    private void SetPlatform(RaycastHit rayHit) // NOT WORKING PROPERLY...!!
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="rayHit"></param>
+    private void SetPlatform(RaycastHit rayHit)
     {
         try
         {
@@ -337,22 +345,13 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         {
             transform.SetParent(null);
         }
-
-        //if (rayHit.transform != null)
-        //{
-        //    platform = rayHit.transform.parent.GetComponentInChildren<RigidParent>().transform;
-        //    if (platform != null)
-        //    {
-        //        this.transform.SetParent(platform);
-        //    }
-
-        //    else
-        //    {
-        //        this.transform.SetParent(null);
-        //    }
-        //}
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="moveInput"></param>
+    /// <param name="rayHit"></param>
     private void CharacterMove(Vector3 moveInput, RaycastHit rayHit) 
     {
         Vector3 m_UnitGoal = moveInput;
@@ -360,43 +359,31 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         float velDot = Vector3.Dot(m_UnitGoal, unitVel);
         float accel = _acceleration * _accelerationFactorFromDot.Evaluate(velDot);
         Vector3 goalVel = m_UnitGoal * _maxSpeed * _speedFactor;
-
         Vector3 otherVel = Vector3.zero;
         Rigidbody hitBody = rayHit.rigidbody;
-        if (hitBody != null)
-        {
-            //otherVel = hitBody.velocity;
-        }
-
         _m_GoalVel = Vector3.MoveTowards(_m_GoalVel,
-                                        goalVel + otherVel,
+                                        goalVel,
                                         accel * Time.fixedDeltaTime);
-
-        // Actual force...
         Vector3 neededAccel = (_m_GoalVel - _rb.velocity) / Time.fixedDeltaTime;
-
         float maxAccel = _maxAccelForce * _maxAccelerationForceFactorFromDot.Evaluate(velDot) * _maxAccelForceFactor;
-
         neededAccel = Vector3.ClampMagnitude(neededAccel, maxAccel);
-
-        // Using AddForceAtPosition in order to both move the player and cause the play to lean in the direction of input.
-        
-        _rb.AddForceAtPosition(Vector3.Scale(neededAccel * _rb.mass, _moveForceScale), transform.position + new Vector3(0f, transform.localScale.y * +0.25f, 0f));
+        _rb.AddForceAtPosition(Vector3.Scale(neededAccel * _rb.mass, _moveForceScale), transform.position + new Vector3(0f, transform.localScale.y * +0.25f, 0f)); // Using AddForceAtPosition in order to both move the player and cause the play to lean in the direction of input.
     }
 
-
-
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="jumpInput"></param>
+    /// <param name="grounded"></param>
+    /// <param name="rayHit"></param>
     private void CharacterJump(Vector3 jumpInput, bool grounded, RaycastHit rayHit)
     {
         _timeSinceJumpPressed += Time.fixedDeltaTime;
         _timeSinceJump += Time.fixedDeltaTime;
-
         if (_rb.velocity.y < 0)
         {
             _shouldMaintainHeight = true;
             _jumpReady = true;
-
             if (!grounded)
             {
                 if (_isJumping)
@@ -405,9 +392,7 @@ public class PhysicsBasedCharacterController : MonoBehaviour
                     _rb.AddForce(_gravitationalForce * (_fallGravityFactor - 1f)); // Hmm... this feels a bit weird. I want a reactive jump, but I don't want it to dive all the time...
                 }
             }
-
         }
-
         else if (_rb.velocity.y > 0)
         {
             if (!grounded)
@@ -419,7 +404,6 @@ public class PhysicsBasedCharacterController : MonoBehaviour
                     _rb.AddForce(_gravitationalForce * (_lowJumpFactor - 1f));
                 }
             }
-
         }
 
         if (_timeSinceJumpPressed < _jumpBuffer)
@@ -431,17 +415,12 @@ public class PhysicsBasedCharacterController : MonoBehaviour
                     _jumpReady = false;
                     _shouldMaintainHeight = false;
                     _isJumping = true;
-
-                    // Cheat fix...
-                    _rb.velocity = new Vector3(_rb.velocity.x, 0f, _rb.velocity.z);
-
+                    _rb.velocity = new Vector3(_rb.velocity.x, 0f, _rb.velocity.z); // Cheat fix... (see comment below when adding force to rigidbody).
                     if (rayHit.distance != 0) // i.e. if the ray has hit
                     {
                         _rb.position = new Vector3(_rb.position.x, _rb.position.y - (rayHit.distance - _rideHeight), _rb.position.z);
                     }
-
                     _rb.AddForce(Vector3.up * _jumpForceFactor, ForceMode.Impulse); // This does not work very consistently... Jump height is affected by initial y velocity and y position relative to RideHeight... Want to adopt a fancier approach (more like PlayerMovement). A cheat fix to ensure consistency has been issued above...
-
                     _timeSinceJumpPressed = _jumpBuffer; // So as to not activate further jumps, in the case that the player lands before the jump timer surpasses the buffer.
                     _timeSinceJump = 0f;
                 }

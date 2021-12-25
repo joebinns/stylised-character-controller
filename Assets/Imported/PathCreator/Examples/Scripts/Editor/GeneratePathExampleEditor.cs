@@ -7,8 +7,6 @@ namespace PathCreation.Examples
     [CustomEditor(typeof(GeneratePathExample), true)]
     public class GeneratePathExampleEditor : Editor
     {
-        //protected GeneratePathExample generatePathExample;
-
         public override void OnInspectorGUI()
         {
             DrawDefaultInspector();

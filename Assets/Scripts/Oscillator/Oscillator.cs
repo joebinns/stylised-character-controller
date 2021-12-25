@@ -12,7 +12,8 @@ public class Oscillator : MonoBehaviour
     private Vector3 _previousVelocity = Vector3.zero;
 
     [Tooltip("The local position about which oscillations are centered.")]
-    [SerializeField] public Vector3 localEquilibriumPosition = Vector3.zero;
+    public Vector3 localEquilibriumPosition = Vector3.zero;
+    [Tooltip("The axes over which the oscillator applies force. Within range [0, 1].")]
     public Vector3 forceScale = Vector3.one;
     [Tooltip("The greater the stiffness constant, the lesser the amplitude of oscillations.")]
     [SerializeField] private float _stiffness = 100f;
