@@ -14,8 +14,6 @@ public static class MathsUtils
         else return a * Quaternion.Inverse(b);
     }
 
-
-
     public static Quaternion Multiply(Quaternion input, float scalar)
     {
         return new Quaternion(input.x * scalar, input.y * scalar, input.z * scalar, input.w * scalar);

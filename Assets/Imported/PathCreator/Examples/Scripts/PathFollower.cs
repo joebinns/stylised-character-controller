@@ -2,21 +2,18 @@
 
 namespace PathCreation.Examples
 {
-    // Moves along a path at constant speed.
+    // Moves along a path Loops.
     // Depending on the end of path instruction, will either loop, reverse, or stop at the end of the path.
     public class PathFollower : MonoBehaviour
     {
         public PathCreator pathCreator;
         public EndOfPathInstruction endOfPathInstruction;
-        //public float maxSpeed = 5;
-        public float distanceTravelled;
-        public float length;
         public Vector3 rotateScale = Vector3.one;
-
-        //private int direction = 1;
+        public float period = 10f; 
 
         private float _t;
-        public float period = 10f;
+        private float distanceTravelled = 0f;
+
 
         void Start() {
             if (pathCreator != null)
@@ -34,16 +31,17 @@ namespace PathCreation.Examples
                 float ratio = _t / period;
                 float theta = ratio * 2f * Mathf.PI;
 
-                //distanceTravelled += pathCreator.path.length * Time.fixedDeltaTime *  Mathf.Sin(theta);
-
-                distanceTravelled = pathCreator.path.length * 0.5f * (1 - Mathf.Sin(theta + Mathf.PI/2f));
-
-                //Debug.Log(distance);
+                if (endOfPathInstruction == EndOfPathInstruction.Reverse)
+                {
+                    distanceTravelled = pathCreator.path.length * 0.5f * (1 - Mathf.Sin(theta + Mathf.PI / 2f));
+                }
+                else
+                {
+                    distanceTravelled += Time.fixedDeltaTime / period;
+                }
 
                 Vector3 pos = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
                 Vector3 rot = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction).eulerAngles;
-
-                length = pathCreator.path.length;
 
                 Vector3 tempRot = Vector3.zero;
                 for (int i = 0; i < 3; i++)

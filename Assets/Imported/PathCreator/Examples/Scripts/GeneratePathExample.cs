@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 namespace PathCreation.Examples {
-    // Example of creating a path in editor before runtime, from a set of points.
+    // Example of creating a path from a set of points upon button press in editor.
     [RequireComponent(typeof(PathCreator))]
     public class GeneratePathExample : MonoBehaviour
     {
