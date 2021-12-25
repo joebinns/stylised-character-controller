@@ -49,6 +49,7 @@ public class PhysicsBasedCharacterController : MonoBehaviour
     [SerializeField] private float _maxSpeed = 8f;
     [SerializeField] private float _acceleration = 200f;
     [SerializeField] private float _maxAccelForce = 150f;
+    [SerializeField] private float _leanFactor = 0.25f;
     [SerializeField] private AnimationCurve _accelerationFactorFromDot;
     [SerializeField] private AnimationCurve _maxAccelerationForceFactorFromDot;
     [SerializeField] private Vector3 _moveForceScale = new Vector3(1f, 0f, 1f);
@@ -368,7 +369,7 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         Vector3 neededAccel = (_m_GoalVel - _rb.velocity) / Time.fixedDeltaTime;
         float maxAccel = _maxAccelForce * _maxAccelerationForceFactorFromDot.Evaluate(velDot) * _maxAccelForceFactor;
         neededAccel = Vector3.ClampMagnitude(neededAccel, maxAccel);
-        _rb.AddForceAtPosition(Vector3.Scale(neededAccel * _rb.mass, _moveForceScale), transform.position + new Vector3(0f, transform.localScale.y * +0.25f, 0f)); // Using AddForceAtPosition in order to both move the player and cause the play to lean in the direction of input.
+        _rb.AddForceAtPosition(Vector3.Scale(neededAccel * _rb.mass, _moveForceScale), transform.position + new Vector3(0f, transform.localScale.y * _leanFactor, 0f)); // Using AddForceAtPosition in order to both move the player and cause the play to lean in the direction of input.
     }
 
     /// <summary>
