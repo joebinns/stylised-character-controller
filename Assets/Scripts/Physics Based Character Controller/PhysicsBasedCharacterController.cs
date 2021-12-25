@@ -63,6 +63,7 @@ public class PhysicsBasedCharacterController : MonoBehaviour
 
     [Header("Jump:")]
     [SerializeField] private float _jumpForceFactor = 10f;
+    [SerializeField] private float _riseGravityFactor = 5f;
     [SerializeField] private float _fallGravityFactor = 10f; // typically > 1f (i.e. 5f).
     [SerializeField] private float _lowJumpFactor = 2.5f;
     [SerializeField] private float _jumpBuffer = 0.15f; // Note, jumpBuffer shouldn't really exceed the time of the jump.
@@ -386,7 +387,7 @@ public class PhysicsBasedCharacterController : MonoBehaviour
             _jumpReady = true;
             if (!grounded)
             {
-                if (_isJumping)
+                //if (_isJumping)
                 {
                     // Increase downforce for a sudden plummet.
                     _rb.AddForce(_gravitationalForce * (_fallGravityFactor - 1f)); // Hmm... this feels a bit weird. I want a reactive jump, but I don't want it to dive all the time...
@@ -397,7 +398,10 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         {
             if (!grounded)
             {
-
+                if (_isJumping)
+                {
+                    _rb.AddForce(_gravitationalForce * (_riseGravityFactor - 1f));
+                }
                 if (jumpInput == Vector3.zero)
                 {
                     // Impede the jump height to achieve a low jump.
