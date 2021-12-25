@@ -387,11 +387,8 @@ public class PhysicsBasedCharacterController : MonoBehaviour
             _jumpReady = true;
             if (!grounded)
             {
-                //if (_isJumping)
-                {
-                    // Increase downforce for a sudden plummet.
-                    _rb.AddForce(_gravitationalForce * (_fallGravityFactor - 1f)); // Hmm... this feels a bit weird. I want a reactive jump, but I don't want it to dive all the time...
-                }
+                // Increase downforce for a sudden plummet.
+                _rb.AddForce(_gravitationalForce * (_fallGravityFactor - 1f)); // Hmm... this feels a bit weird. I want a reactive jump, but I don't want it to dive all the time...
             }
         }
         else if (_rb.velocity.y > 0)
