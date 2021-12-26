@@ -1,12 +1,12 @@
 # Stylised Character Controller
-A stylised physics based character controller made in Unity 3D.
+A **stylised physics based character controller** made in **Unity 3D**.
 
 **Watch** [Stylised Character Controller: Demo](https://youtu.be/3GsXkzbfNBo)
 [![Stylised Character Controller: Demo](https://joebinns.com/documents/stylised_character_controller_demo.png)](https://youtu.be/3GsXkzbfNBo "Stylised Character Controller: Demo. Click to watch.")
 
-The character controller is based on the floating capsule approach devised by [Toyful Games](https://www.toyfulgames.com/) for [Very Very Valet](https://www.toyfulgames.com/very-very-valet). In [this video](https://www.youtube.com/watch?v=qdskE8PJy6Q&ab_channel=ToyfulGames) from the team's development blog, the various techniques for the movement are outlined and explained. The video also provides snippets of code, though incomplete in places. The source code was not provided by [Toyful Games](https://www.toyfulgames.com/) due to it being tied up in the complex otherworkings of [Very Very Valet](https://www.toyfulgames.com/very-very-valet). This project aims to be an independent pure re-creation of their physics based character controller.
+The **character controller** is based on the floating capsule approach devised by [Toyful Games](https://www.toyfulgames.com/) for [Very Very Valet](https://www.toyfulgames.com/very-very-valet). In [this video](https://www.youtube.com/watch?v=qdskE8PJy6Q&ab_channel=ToyfulGames) from the team's development blog, the various techniques for the movement are outlined and explained. The video also provides snippets of code, though incomplete in places. The source code was not provided by [Toyful Games](https://www.toyfulgames.com/) due to it being tied up in the complex otherworkings of [Very Very Valet](https://www.toyfulgames.com/very-very-valet). This project aims to be an independent pure re-creation of their physics based character controller.
 
-Additional stylisation inspired by discussions found in [Toyful Games](https://www.toyfulgames.com/) blog posts on [character animations](https://www.toyfulgames.com/blog/character-animations) and [shaders and effects](https://www.toyfulgames.com/blog/deep-dive-shaders-and-effects) are also included. These implementations exist from a personal desire to have them in my own projects. The project makes use of Unity's Universal Render Pipeline (URP) to facilitate some of these graphical features.
+**Additional stylisation** inspired by discussions found in [Toyful Games](https://www.toyfulgames.com/) blog posts on [character animations](https://www.toyfulgames.com/blog/character-animations) and [shaders and effects](https://www.toyfulgames.com/blog/deep-dive-shaders-and-effects) are also included. These implementations exist from a personal desire to have them in my own projects. The project makes use of Unity's Universal Render Pipeline (URP) to facilitate some of these graphical features.
 
 ## Features
 - **Physics based character controller**, as described [here](https://www.youtube.com/watch?v=qdskE8PJy6Q&ab_channel=ToyfulGames).
@@ -38,7 +38,7 @@ Credits for the clever character controller goes to [Toyful Games](https://www.t
 The blob shadows use [Nyahoon Games'](http://nyahoon.com/products) asset [Dynamic Shadow Projector for URP](http://nyahoon.com/products/dynamic-shadow-projector).
 
 ### Path Creator
-The platforms follow paths using Sebastian Lague's very useful [Path Creator](https://github.com/SebLague/Path-Creator). This has been adapted to work with [*Oscillator.cs*].
+The platforms follow paths using Sebastian Lague's very useful [Path Creator](https://github.com/SebLague/Path-Creator) (a project which I have previously contributed to). This has been adapted to work with [*Oscillator.cs*].
 
 ### All else
 Is [my own](https://joebinns.com/).
