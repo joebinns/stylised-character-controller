@@ -16,7 +16,7 @@ The **character controller** is based on the floating capsule approach devised b
 - **Dust particles** appear when characters move, making the character feel more alive.
 
 ## Installation
-Open the project in Unity. Open the demo scene located at [*StylisedCharacterController/Assets/Scenes/*](https://github.com/joebinns/StylisedCharacterController/tree/main/Assets/Scenes).
+Open the project in Unity. Open the demo scene located at [*stylised-character-controller/Assets/Scenes/*](https://github.com/joebinns/stylised-character-controller/tree/main/Assets/Scenes).
 
 ## Usage
 When running the project in the Game view, use <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> and <kbd>Space</kbd> to move and jump the character.
