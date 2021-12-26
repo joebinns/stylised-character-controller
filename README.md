@@ -4,7 +4,7 @@ A **stylised physics based character controller** made in **Unity 3D**.
 **Watch** [Stylised Character Controller: Demo](https://youtu.be/3GsXkzbfNBo)
 [![Stylised Character Controller: Demo](https://joebinns.com/documents/stylised_character_controller_demo.png)](https://youtu.be/3GsXkzbfNBo "Stylised Character Controller: Demo. Click to watch.")
 
-The **character controller** is based on the floating capsule approach devised by [Toyful Games](https://www.toyfulgames.com/) for [Very Very Valet](https://www.toyfulgames.com/very-very-valet). In [this video](https://www.youtube.com/watch?v=qdskE8PJy6Q&ab_channel=ToyfulGames) from the team's development blog, the various techniques for the movement are outlined and explained. The video also provides snippets of code, though incomplete in places. The source code was not provided by [Toyful Games](https://www.toyfulgames.com/) due to it being tied up in the complex otherworkings of [Very Very Valet](https://www.toyfulgames.com/very-very-valet). This project aims to be an independent pure re-creation of their physics based character controller.
+The **character controller** is based on the floating capsule approach devised by [Toyful Games](https://www.toyfulgames.com/) for [Very Very Valet](https://www.toyfulgames.com/very-very-valet). In [this video](https://www.youtube.com/watch?v=qdskE8PJy6Q&ab_channel=ToyfulGames) from the team's development blog, the various techniques for the movement are outlined and explained. The video also provides snippets of code, though incomplete in places. The source code was not provided by [Toyful Games](https://www.toyfulgames.com/) due to it being tied up in the complex otherworkings of [Very Very Valet](https://www.toyfulgames.com/very-very-valet). This project aims to be a (fanmade) independent pure re-creation of their physics based character controller.
 
 **Additional stylisation** inspired by discussions found in [Toyful Games](https://www.toyfulgames.com/) blog posts on [character animations](https://www.toyfulgames.com/blog/character-animations) and [shaders and effects](https://www.toyfulgames.com/blog/deep-dive-shaders-and-effects) are also included. These implementations exist from a personal desire to have them in my own projects. The project makes use of Unity's Universal Render Pipeline (URP) to facilitate some of these graphical features.
 
@@ -45,3 +45,6 @@ Is [my own](https://joebinns.com/).
 
 ## License (MIT License)
 See [this page](https://github.com/joebinns/PhysicsBasedCharacterController/blob/main/LICENSE) for more information.
+
+## Disclaimer
+This project is fanmade! The quality of the project does not reflect the quality of Toyful Games or their products.
