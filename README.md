@@ -15,7 +15,7 @@ The **character controller** is based on the floating capsule approach devised b
 - **Top down blob shadows** on characters make 3D platforming feel sharper, and they look great when combined with Unity's inbuilt shadows on the environment.
 - **Dust particles** appear when characters move, making the character feel more alive.
 
-## Itch.io
+## Preview
 Preview a feel for the character controller over at [itch.io](https://joebinns.itch.io/stylised-character-controller).
 
 ## Installation
