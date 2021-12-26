@@ -31,7 +31,7 @@ When running the project in the Game view, use <kbd>W</kbd><kbd>A</kbd><kbd>S</k
 All contributions big and small are appreciated and encouraged!
 
 ## Credits
-### Physics based character controller
+### Physics based character controller [^1]
 Credits for the clever character controller goes to [Toyful Games](https://www.toyfulgames.com/). A large portion of this system's code is their own as presented in [this video](https://www.youtube.com/watch?v=qdskE8PJy6Q&ab_channel=ToyfulGames).
 
 ### Blob shadows
@@ -46,5 +46,4 @@ Is [my own](https://joebinns.com/).
 ## License (MIT License)
 See [this page](https://github.com/joebinns/PhysicsBasedCharacterController/blob/main/LICENSE) for more information.
 
-## Disclaimer
-This project is fanmade! The quality of the project does not reflect the quality of Toyful Games or their products.
+[^1]: **Disclaimer:** This project is fanmade! The quality of the project does not reflect the quality of Toyful Games or their products.
