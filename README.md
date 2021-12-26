@@ -16,7 +16,7 @@ The **character controller** is based on the floating capsule approach devised b
 - **Dust particles** appear when characters move, making the character feel more alive.
 
 ## Preview
-Preview a feel for the character controller over at [itch.io](https://joebinns.itch.io/stylised-character-controller).
+Get a hands on feel for the character controller over at [itch.io](https://joebinns.itch.io/stylised-character-controller).
 
 ## Installation
 Open the project in Unity. Open the demo scene located at [*stylised-character-controller/Assets/Scenes/*](https://github.com/joebinns/stylised-character-controller/tree/main/Assets/Scenes).
