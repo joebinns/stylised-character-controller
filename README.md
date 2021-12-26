@@ -1,7 +1,7 @@
 # Stylised Character Controller
 A **stylised physics based character controller** made in **Unity 3D**.
 
-Before you read on, get a **feel** for it yourself over at [itch.io](https://joebinns.itch.io/stylised-character-controller)
+Before you read on, get a hands on **feel** for the project over at [itch.io](https://joebinns.itch.io/stylised-character-controller)
 Alternatively, **watch** [Stylised Character Controller: Demo](https://youtu.be/3GsXkzbfNBo). 
 [![Stylised Character Controller: Demo](https://joebinns.com/documents/stylised_character_controller_demo.png)](https://youtu.be/3GsXkzbfNBo "Stylised Character Controller: Demo. Click to watch.")
 
