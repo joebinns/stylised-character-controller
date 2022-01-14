@@ -12,6 +12,7 @@ public class PhysicsBasedCharacterController : MonoBehaviour
     private Vector3 _gravitationalForce;
     private Vector3 _rayDir = Vector3.down;
     private Vector3 _previousVelocity = Vector3.zero;
+    private Vector2 _moveContext;
 
     [Header("Other:")]
     [SerializeField] private bool _adjustInputsToCameraAngle = false;
@@ -135,6 +136,8 @@ public class PhysicsBasedCharacterController : MonoBehaviour
     /// </summary>
     private void FixedUpdate()
     {
+        _moveInput = new Vector3(_moveContext.x, 0, _moveContext.y);
+
         if (_adjustInputsToCameraAngle)
         {
             _moveInput = AdjustInputToFaceCamera(_moveInput);
@@ -164,7 +167,7 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         if (rayHitGround && _shouldMaintainHeight)
         {
             MaintainHeight(rayHit);
-        }          
+        }
 
         Vector3 lookDirection = GetLookDirection(_characterLookDirection);
         MaintainUpright(lookDirection, rayHit);
@@ -212,7 +215,7 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         if (hitBody != null)
         {
             hitBody.AddForceAtPosition(-maintainHeightForce, rayHit.point);
-        }  
+        }
     }
 
     /// <summary>
@@ -281,7 +284,7 @@ public class PhysicsBasedCharacterController : MonoBehaviour
     {
         CalculateTargetRotation(yLookAt, rayHit);
 
-        Quaternion currentRot = transform.rotation; 
+        Quaternion currentRot = transform.rotation;
         Quaternion toGoal = MathsUtils.ShortestRotation(_uprightTargetRot, currentRot);
 
         Vector3 rotAxis;
@@ -294,15 +297,14 @@ public class PhysicsBasedCharacterController : MonoBehaviour
 
         _rb.AddTorque((rotAxis * (rotRadians * _uprightSpringStrength)) - (_rb.angularVelocity * _uprightSpringDamper));
     }
-    
+
     /// <summary>
     /// 
     /// </summary>
     /// <param name="context"></param>
     public void MoveInputAction(InputAction.CallbackContext context)
     {
-        Vector2 moveContext = context.ReadValue<Vector2>();
-        _moveInput = new Vector3(moveContext.x, 0, moveContext.y); 
+        _moveContext = context.ReadValue<Vector2>();
     }
 
     /// <summary>
@@ -354,7 +356,7 @@ public class PhysicsBasedCharacterController : MonoBehaviour
     /// </summary>
     /// <param name="moveInput"></param>
     /// <param name="rayHit"></param>
-    private void CharacterMove(Vector3 moveInput, RaycastHit rayHit) 
+    private void CharacterMove(Vector3 moveInput, RaycastHit rayHit)
     {
         Vector3 m_UnitGoal = moveInput;
         Vector3 unitVel = _m_GoalVel.normalized;
