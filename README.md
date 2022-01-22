@@ -2,12 +2,12 @@
 A **stylised physics based character controller** made in **Unity 3D**.
 
 Before you read on, get a hands on **feel** for the project over at [itch.io](https://joebinns.itch.io/stylised-character-controller).
-Alternatively, **watch** [Stylised Character Controller: Demo](https://youtu.be/3GsXkzbfNBo)!
+Alternatively, **watch** the demo on [YouTube](https://youtu.be/3GsXkzbfNBo)!
 [![Stylised Character Controller: Demo](https://joebinns.com/documents/fake_thumbnails/stylised_character_controller_thumbnail_time.png)](https://youtu.be/3GsXkzbfNBo "Stylised Character Controller: Demo. Click to watch.")
 
-The **character controller** is based on the floating capsule approach devised by [Toyful Games](https://www.toyfulgames.com/) for [Very Very Valet](https://www.toyfulgames.com/very-very-valet). In [this video](https://www.youtube.com/watch?v=qdskE8PJy6Q&ab_channel=ToyfulGames) from the team's development blog, the various techniques for the movement are outlined and explained. The video also provides snippets of code, though incomplete in places. The source code was not provided by [Toyful Games](https://www.toyfulgames.com/) due to it being tied up in the complex otherworkings of [Very Very Valet](https://www.toyfulgames.com/very-very-valet). This project aims to be a (fanmade) independent pure re-creation of their physics based character controller.
+The **character controller** is based on the floating capsule approach devised by [Toyful Games](https://www.toyfulgames.com/) for [Very Very Valet](https://www.toyfulgames.com/very-very-valet). In [a video](https://www.youtube.com/watch?v=qdskE8PJy6Q&ab_channel=ToyfulGames) from the team's development blog, the various techniques for the movement are outlined and explained. The video also provides snippets of code, though incomplete in places. The source code was not provided by Toyful Games due to it being tied up in the complex otherworkings of Very Very Valet. This project aims to be a (fanmade) independent pure re-creation of their physics based character controller.
 
-**Additional stylisation** inspired by discussions found in [Toyful Games](https://www.toyfulgames.com/) blog posts on [character animations](https://www.toyfulgames.com/blog/character-animations) and [shaders and effects](https://www.toyfulgames.com/blog/deep-dive-shaders-and-effects) are also included. These implementations exist from a personal desire to have them in my own projects. The project makes use of Unity's Universal Render Pipeline (URP) to facilitate some of these graphical features.
+**Additional stylisation** inspired by discussions found in Toyful Games blog posts on [character animations](https://www.toyfulgames.com/blog/character-animations) and [shaders and effects](https://www.toyfulgames.com/blog/deep-dive-shaders-and-effects) are also included. These implementations exist from a personal desire to have them in my own projects. The project makes use of Unity's Universal Render Pipeline (URP) to facilitate some of these graphical features.
 
 ## Features
 - **Physics based character controller**, as described [here](https://www.youtube.com/watch?v=qdskE8PJy6Q&ab_channel=ToyfulGames).
