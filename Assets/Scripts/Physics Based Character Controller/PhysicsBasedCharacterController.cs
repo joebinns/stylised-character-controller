@@ -182,7 +182,7 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         RaycastHit rayHit;
         Ray rayToGround = new Ray(transform.position, _rayDir);
         bool rayHitGround = Physics.Raycast(rayToGround, out rayHit, _rayToGroundLength, _terrainLayer.value);
-        Debug.DrawRay(transform.position, _rayDir * _rayToGroundLength, Color.blue);
+        //Debug.DrawRay(transform.position, _rayDir * _rayToGroundLength, Color.blue);
         return (rayHitGround, rayHit);
     }
 
@@ -209,7 +209,7 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         Vector3 oscillationForce = springForce * Vector3.down;
         _rb.AddForce(maintainHeightForce);
         _squashAndStretchOcillator.ApplyForce(oscillationForce);
-        Debug.DrawLine(transform.position, transform.position + (_rayDir * springForce), Color.yellow);
+        //Debug.DrawLine(transform.position, transform.position + (_rayDir * springForce), Color.yellow);
 
         // Apply force to objects beneath
         if (hitBody != null)

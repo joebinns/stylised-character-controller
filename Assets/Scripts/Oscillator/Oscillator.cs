@@ -106,13 +106,17 @@ public class Oscillator : MonoBehaviour
             equilibrium += transform.parent.position;
         }
 
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(equilibrium, 0.75f);
+        // Draw (mesh) equilibrium position
+        Color color = Color.green;
+        Gizmos.color = color;
+        Gizmos.DrawWireSphere(equilibrium, 0.7f);
 
-        if (Vector3.Magnitude(bob - equilibrium) > 0.025f)
-        {
-            Gizmos.color = Color.yellow;
-        }
+        // Draw (solid) bob position
+        // Color goes from green (0,1,0,0) to yellow (1,1,0,0) to red (1,0,0,0).
+        float upperAmplitude = _stiffness * _mass / (3f * 100f); // Approximately the upper limit of the amplitude within regular use
+        color.r = 2f * Mathf.Clamp(Vector3.Magnitude(bob - equilibrium) * upperAmplitude, 0f, 0.5f);
+        color.g = 2f * (1f - Mathf.Clamp(Vector3.Magnitude(bob - equilibrium) * upperAmplitude, 0.5f, 1f));
+        Gizmos.color = color;
         Gizmos.DrawSphere(bob, 0.75f);
     }
 }
