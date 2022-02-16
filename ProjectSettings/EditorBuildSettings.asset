@@ -5,8 +5,11 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: Assets/Scenes/Pendulum Demo.unity
+    guid: 6c598ac0a52fc50428639fbd7c6de9f0
   - enabled: 1
-    path: Assets/Scenes/Demo.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/Oscillator Demo.unity
+    guid: e231fc1134c7c4f40afd0212edcee055
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 3b635b11bd2bc124bab16ca8e917314d, type: 2}

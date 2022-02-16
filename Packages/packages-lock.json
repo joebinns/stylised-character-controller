@@ -1,5 +1,11 @@
 {
   "dependencies": {
+    "com.popcron.gizmos": {
+      "version": "file:Popcron Gizmos",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.ext.nunit": {
       "version": "1.0.6",
       "depth": 2,

@@ -13,11 +13,12 @@ public class PhysicsBasedCharacterController : MonoBehaviour
     private Vector3 _rayDir = Vector3.down;
     private Vector3 _previousVelocity = Vector3.zero;
     private Vector2 _moveContext;
+    private ParticleSystem.EmissionModule _emission;
 
     [Header("Other:")]
     [SerializeField] private bool _adjustInputsToCameraAngle = false;
     [SerializeField] private LayerMask _terrainLayer;
-
+    [SerializeField] private ParticleSystem _dustParticleSystem;
 
     private bool _shouldMaintainHeight = true;
 
@@ -78,6 +79,12 @@ public class PhysicsBasedCharacterController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         _gravitationalForce = Physics.gravity * _rb.mass;
+
+        if (_dustParticleSystem)
+        {
+            _emission = _dustParticleSystem.emission; // Stores the module in a local variable
+            _emission.enabled = false; // Applies the new value directly to the Particle System
+        }
     }
 
     /// <summary>
@@ -149,6 +156,15 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         bool grounded = CheckIfGrounded(rayHitGround, rayHit);
         if (grounded == true)
         {
+            if (_dustParticleSystem)
+            {
+                if (_emission.enabled == false)
+                {
+
+                    _emission.enabled = true; // Applies the new value directly to the Particle System
+                }
+            }
+
             _timeSinceUngrounded = 0f;
 
             if (_timeSinceJump > 0.2f)
@@ -158,6 +174,14 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         }
         else
         {
+            if (_dustParticleSystem)
+            {
+                if (_emission.enabled == true)
+                {
+                    _emission.enabled = false; // Applies the new value directly to the Particle System
+                }
+            }
+
             _timeSinceUngrounded += Time.fixedDeltaTime;
         }
 

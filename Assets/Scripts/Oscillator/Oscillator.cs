@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Gizmos = Popcron.Gizmos;
 
 /// <summary>
 /// A dampened oscillator using the objects transform local position.
@@ -93,30 +94,39 @@ public class Oscillator : MonoBehaviour
         return (displacement);
     }
 
+    public bool renderGizmos = true;
     /// <summary>
     /// Draws the oscillator bob (sphere) and the equilibrium (wire sphere).
     /// </summary>
-    void OnDrawGizmos()
+    //void OnDrawGizmos()
+    private void OnRenderObject()
     {
-        Vector3 bob = transform.localPosition;
-        Vector3 equilibrium = localEquilibriumPosition;
-        if (transform.parent != null)
+        if (renderGizmos)
         {
-            bob += transform.parent.position;
-            equilibrium += transform.parent.position;
+            Vector3 bob = transform.localPosition;
+            Vector3 equilibrium = localEquilibriumPosition;
+            if (transform.parent != null)
+            {
+                bob += transform.parent.position;
+                equilibrium += transform.parent.position;
+            }
+
+            // Draw (wire) equilibrium position
+            Color color = Color.green;
+            //Gizmos.color = color;
+            //Gizmos.DrawWireSphere(equilibrium, 0.7f);
+            Gizmos.Circle(equilibrium, 0.7f, Camera.main, color, true);
+
+            // Draw (solid) bob position
+            // Color goes from green (0,1,0,0) to yellow (1,1,0,0) to red (1,0,0,0).
+            float upperAmplitude = _stiffness * _mass / (3f * 100f); // Approximately the upper limit of the amplitude within regular use
+            color.r = 2f * Mathf.Clamp(Vector3.Magnitude(bob - equilibrium) * upperAmplitude, 0f, 0.5f);
+            color.g = 2f * (1f - Mathf.Clamp(Vector3.Magnitude(bob - equilibrium) * upperAmplitude, 0.5f, 1f));
+            //Gizmos.color = color;
+            //Gizmos.DrawSphere(bob, 0.75f);
+            Gizmos.Circle(bob, 0.7f, Camera.main, color);
+            //Gizmos.DrawLine(bob, equilibrium);
+            Gizmos.Line(bob, equilibrium, color);
         }
-
-        // Draw (mesh) equilibrium position
-        Color color = Color.green;
-        Gizmos.color = color;
-        Gizmos.DrawWireSphere(equilibrium, 0.7f);
-
-        // Draw (solid) bob position
-        // Color goes from green (0,1,0,0) to yellow (1,1,0,0) to red (1,0,0,0).
-        float upperAmplitude = _stiffness * _mass / (3f * 100f); // Approximately the upper limit of the amplitude within regular use
-        color.r = 2f * Mathf.Clamp(Vector3.Magnitude(bob - equilibrium) * upperAmplitude, 0f, 0.5f);
-        color.g = 2f * (1f - Mathf.Clamp(Vector3.Magnitude(bob - equilibrium) * upperAmplitude, 0.5f, 1f));
-        Gizmos.color = color;
-        Gizmos.DrawSphere(bob, 0.75f);
     }
 }
