@@ -11,7 +11,8 @@
                     "id": "1d966cfd-0cd4-4a79-887e-bf491b7591d8",
                     "expectedControlType": "Vector2",
                     "processors": "NormalizeVector2",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Jump",
@@ -19,7 +20,8 @@
                     "id": "642dae53-b022-45a0-9f55-0b3068a9a309",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Toggle All Gizmos",
@@ -27,7 +29,8 @@
                     "id": "df611dfd-f3c7-4fff-9c1a-46c14c289544",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Toggle Player Gizmos",
@@ -35,7 +38,8 @@
                     "id": "ce37f999-d23a-4296-a59e-31fbda2ab064",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Toggle Oscillator Gizmos",
@@ -43,7 +47,8 @@
                     "id": "a8e4c1cc-55f4-4bdf-9765-07962fcd5bed",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Toggle Torsional Oscillator Gizmos",
@@ -51,7 +56,44 @@
                     "id": "c373efb6-6ccb-41be-b760-4667f8f2fe4d",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Switch Camera",
+                    "type": "Button",
+                    "id": "3095876d-69d2-47a3-b604-3e196774aad7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Begin Pendulums",
+                    "type": "Button",
+                    "id": "ab9149a6-cb55-4363-a39f-0601ff120f46",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Make Transition",
+                    "type": "Button",
+                    "id": "781bed3c-c769-42a6-a451-4aee3a29f931",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Revert Transition",
+                    "type": "Button",
+                    "id": "1b2a0fcb-0be1-4a62-a18f-e9023ec78066",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -197,6 +239,50 @@
                     "action": "Toggle Torsional Oscillator Gizmos",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a6019230-dfcc-4544-b6d0-4107020ebf16",
+                    "path": "<Keyboard>/f5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Switch Camera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "817bc806-3ef8-4e6c-83a4-6b25ebc056fc",
+                    "path": "<Keyboard>/f6",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Begin Pendulums",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c94e04e5-39a2-48d3-becc-36d61ac5a513",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Make Transition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "62f4b86a-a8e8-4e2e-971f-e458d02c9618",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Revert Transition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -210,7 +296,8 @@
                     "id": "9f8086e9-cc27-4b43-b0e4-31245891f854",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Submit",
@@ -218,7 +305,8 @@
                     "id": "e2f556da-e400-4ed7-bd11-ee0e2830590e",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Cancel",
@@ -226,7 +314,8 @@
                     "id": "46d28119-1c32-4d8e-86db-d8e2ce96fd18",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Point",
@@ -234,7 +323,8 @@
                     "id": "333c1396-95a0-40d2-9347-e90407eaeb53",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Click",
@@ -242,7 +332,8 @@
                     "id": "4ebaa290-f78a-4032-bdf0-4d321882fe6f",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "ScrollWheel",
@@ -250,7 +341,8 @@
                     "id": "3d25de34-8716-4c8c-b7ee-9de72dafaf88",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "MiddleClick",
@@ -258,7 +350,8 @@
                     "id": "7a91a130-d930-41e3-860a-3137d34ee430",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "RightClick",
@@ -266,7 +359,8 @@
                     "id": "2e41d100-0f12-4f12-ac10-3035397027c3",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "TrackedDevicePosition",
@@ -274,7 +368,8 @@
                     "id": "d8b60e72-424f-4085-bf05-d6afa198cfe2",
                     "expectedControlType": "Vector3",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "TrackedDeviceOrientation",
@@ -282,7 +377,8 @@
                     "id": "95e7b27a-9d00-4249-941e-6a03a023af6e",
                     "expectedControlType": "Quaternion",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [

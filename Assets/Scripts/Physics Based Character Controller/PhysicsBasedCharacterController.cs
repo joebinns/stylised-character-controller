@@ -98,7 +98,7 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         bool grounded;
         if (rayHitGround == true)
         {
-            grounded = rayHit.distance <= _rideHeight * 1.1f; // 1.1f allows for greater leniancy (as the value will oscillate about the rideHeight).
+            grounded = rayHit.distance <= _rideHeight * 1.3f; // 1.3f allows for greater leniancy (as the value will oscillate about the rideHeight).
         }
         else
         {
@@ -138,6 +138,7 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         return lookDirection;
     }
 
+    private bool _prevGrounded = false;
     /// <summary>
     /// 
     /// </summary>
@@ -156,12 +157,33 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         bool grounded = CheckIfGrounded(rayHitGround, rayHit);
         if (grounded == true)
         {
+            if (_prevGrounded == false)
+            {
+                if (!FindObjectOfType<AudioManager>().IsPlaying("Land"))
+                {
+                    FindObjectOfType<AudioManager>().Play("Land");
+                }
+
+            }
+
+            if (_moveInput.magnitude != 0)
+            {
+                //StartCoroutine(FindObjectOfType<AudioManager>().PlayQueued("Walking Acc", "Walking"));
+                if (!FindObjectOfType<AudioManager>().IsPlaying("Walking"))
+                {
+                    FindObjectOfType<AudioManager>().Play("Walking");
+                }
+            }
+            else
+            {
+                FindObjectOfType<AudioManager>().Stop("Walking");
+            }
+
             if (_dustParticleSystem)
             {
                 if (_emission.enabled == false)
                 {
-
-                    _emission.enabled = true; // Applies the new value directly to the Particle System
+                    _emission.enabled = true; // Applies the new value directly to the Particle System                  
                 }
             }
 
@@ -174,6 +196,8 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         }
         else
         {
+            FindObjectOfType<AudioManager>().Stop("Walking");
+
             if (_dustParticleSystem)
             {
                 if (_emission.enabled == true)
@@ -195,6 +219,8 @@ public class PhysicsBasedCharacterController : MonoBehaviour
 
         Vector3 lookDirection = GetLookDirection(_characterLookDirection);
         MaintainUpright(lookDirection, rayHit);
+
+        _prevGrounded = grounded;
     }
 
     /// <summary>
@@ -451,6 +477,8 @@ public class PhysicsBasedCharacterController : MonoBehaviour
                     _rb.AddForce(Vector3.up * _jumpForceFactor, ForceMode.Impulse); // This does not work very consistently... Jump height is affected by initial y velocity and y position relative to RideHeight... Want to adopt a fancier approach (more like PlayerMovement). A cheat fix to ensure consistency has been issued above...
                     _timeSinceJumpPressed = _jumpBuffer; // So as to not activate further jumps, in the case that the player lands before the jump timer surpasses the buffer.
                     _timeSinceJump = 0f;
+
+                    FindObjectOfType<AudioManager>().Play("Jump");
                 }
             }
         }

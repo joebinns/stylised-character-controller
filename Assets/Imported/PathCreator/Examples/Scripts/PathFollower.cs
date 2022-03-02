@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace PathCreation.Examples
 {
@@ -9,11 +9,9 @@ namespace PathCreation.Examples
         public PathCreator pathCreator;
         public EndOfPathInstruction endOfPathInstruction;
         public Vector3 rotateScale = Vector3.one;
-        public float period = 10f; 
-
+        public float period = 10f;
         private float _t;
         private float distanceTravelled = 0f;
-
 
         void Start() {
             if (pathCreator != null)

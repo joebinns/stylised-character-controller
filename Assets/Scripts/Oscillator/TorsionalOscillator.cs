@@ -44,8 +44,6 @@ public class TorsionalOscillator : MonoBehaviour
     /// </summary>
     private void FixedUpdate()
     {
-        
-
         Vector3 restoringTorque = CalculateRestoringTorque();
         ApplyTorque(restoringTorque);
 
@@ -74,8 +72,8 @@ public class TorsionalOscillator : MonoBehaviour
     /// <returns>Damped Hooke's torque</returns>
     private Vector3 AngularHookesLaw(Vector3 angularDisplacement, Vector3 angularVelocity)
     {
-        Vector3 torque = (stiffness * angularDisplacement) + (_damper * angularVelocity); // Damped angular Hooke's law.
-        torque = -torque; // Take the negative of the torque, since the torque is restorative (attractive).
+        Vector3 torque = (stiffness * angularDisplacement) + (_damper * angularVelocity); // Damped angular Hooke's law
+        torque = -torque; // Take the negative of the torque, since the torque is restorative (attractive)
         return (torque);
     }
 
@@ -121,7 +119,7 @@ public class TorsionalOscillator : MonoBehaviour
             //Gizmos.color = color;
 
             // Draw (arc) angle to equilibrium
-            Vector3 equilibrium = GizmoUtils.DrawArc(pivotPosition, bob, axis, 0f, -angle / 360f, 30, color);
+            Vector3 equilibrium = GizmoUtils.DrawArc(pivotPosition, bob, axis, 0f, -angle / 360f, 32, color);
 
             // Draw (solid) bob position
             //Gizmos.DrawSphere(bob, 0.7f);

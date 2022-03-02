@@ -23,7 +23,9 @@ public class ToggleGizmos : MonoBehaviour
         {
             Oscillator oscillator = oscillators[i];
             oscillator.renderGizmos = false;
-
+        }
+        for (int i = 0; i < torsionalOscillators.Length; i++)
+        {
             TorsionalOscillator torsionalOscillator = torsionalOscillators[i];
             torsionalOscillator.renderGizmos = false;
         }
@@ -85,7 +87,9 @@ public class ToggleGizmos : MonoBehaviour
             {
                 Oscillator oscillator = oscillators[i];
                 oscillator.renderGizmos = !baseAround;
-
+            }
+            for (int i = 0; i < torsionalOscillators.Length; i++)
+            {
                 TorsionalOscillator torsionalOscillator = torsionalOscillators[i];
                 torsionalOscillator.renderGizmos = !baseAround;
             }

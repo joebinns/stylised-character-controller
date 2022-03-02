@@ -56,8 +56,8 @@ public class Oscillator : MonoBehaviour
     /// <returns>Damped Hooke's force</returns>
     private Vector3 HookesLaw(Vector3 displacement, Vector3 velocity)
     {
-        Vector3 force = (_stiffness * displacement) + (_damper * velocity); // Damped Hooke's law.
-        force = -force; // Take the negative of the force, since the force is restorative (attractive).
+        Vector3 force = (_stiffness * displacement) + (_damper * velocity); // Damped Hooke's law
+        force = -force; // Take the negative of the force, since the force is restorative (attractive)
         return (force);
     }
 

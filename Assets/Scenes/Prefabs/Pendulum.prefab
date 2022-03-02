@@ -97,11 +97,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localEquilibriumRotation: {x: 0, y: 0, z: 0}
-  torqueScale: {x: 0, y: 0, z: 1}
+  torqueScale: {x: 1, y: 0, z: 0}
   stiffness: 10
   _damper: 0
   _localPivotPosition: {x: 0, y: 10, z: 0}
   angularDisplacementMagnitude: 0
+  renderGizmos: 1
 --- !u!54 &1649764703930385159
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -116,7 +117,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 62
+  m_Constraints: 110
   m_CollisionDetection: 0
 --- !u!114 &6997104254710247240
 MonoBehaviour:

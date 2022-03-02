@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PendulumCreator : MonoBehaviour
 {
@@ -32,11 +33,11 @@ public class PendulumCreator : MonoBehaviour
         displacement = transform.position;
         if (incrementally)
         {
-            displacement += Vector3.back * popInDistance;
+            displacement += Vector3.left * popInDistance;
         }
         for (int i = 0; i < numPendulums; i++)
         {
-            displacement += Vector3.back * 3f;
+            displacement += Vector3.left * 3f;
             GameObject pendulum = Instantiate(pendulumPrefab, displacement, Quaternion.identity, transform);
             pendulums.Add(pendulum);
             if (incrementally)
@@ -48,7 +49,7 @@ public class PendulumCreator : MonoBehaviour
             TorsionalOscillator torsionalOscillator = pendulum.GetComponent<TorsionalOscillator>();
             torsionalOscillator.stiffness *= (1f + 1f * i / numPendulums);
 
-            torsionalOscillator.transform.localRotation = Quaternion.Euler(0, 0, angle);
+            torsionalOscillator.transform.localRotation = Quaternion.Euler(angle, 0, 0);
         }
 
         /*
@@ -59,12 +60,20 @@ public class PendulumCreator : MonoBehaviour
         */
     }
 
+    public bool started = false;
     private List<float> t;
     private List<float> prevLerp;
     private void Update()
     {
         for (int i = 0; i < numPendulums; i++)
         {
+            if (!started)
+            {
+                if (i != 0)
+                {
+                    break;
+                }
+            }
             if (t[i] < incrementalTime)
             {
                 if (i > 0)
@@ -80,11 +89,11 @@ public class PendulumCreator : MonoBehaviour
                         float currLerp = Easing.Elastic.Out(t[i]);
                         float deltaLerp = currLerp - prevLerp[i];
                         pendulums[i].transform.localScale += Vector3.one * deltaLerp * 2f;
-                        pendulums[i].transform.position += Vector3.forward * deltaLerp * popInDistance;
+                        pendulums[i].transform.position += Vector3.right * deltaLerp * popInDistance;
                         prevLerp[i] = currLerp;
                     }
                 }
-                
+            
                 else // i == 0
                 {
                     t[i] += Time.deltaTime / incrementalTime;
@@ -96,10 +105,9 @@ public class PendulumCreator : MonoBehaviour
                     float currLerp = Easing.Elastic.Out(t[i]);
                     float deltaLerp = currLerp - prevLerp[i];
                     pendulums[i].transform.localScale += Vector3.one * deltaLerp * 2f;
-                    pendulums[i].transform.position += Vector3.forward * deltaLerp * popInDistance;
+                    pendulums[i].transform.position += Vector3.right * deltaLerp * popInDistance;
                     prevLerp[i] = currLerp;
                 }
-
             }
         }
     }
@@ -114,4 +122,12 @@ public class PendulumCreator : MonoBehaviour
         }
     }
     */
+
+    public void Begin(InputAction.CallbackContext context)
+    {   
+        if (context.started)
+        {
+            started = true;
+        }
+    }
 }

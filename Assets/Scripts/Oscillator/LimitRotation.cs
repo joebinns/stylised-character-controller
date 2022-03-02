@@ -5,9 +5,7 @@ using UnityEngine;
 public class LimitRotation : MonoBehaviour
 {
     // +- Range of rotations for each respective axis.
-    [SerializeField] private Vector3 maxRotation = Vector3.one * 360f;
-
-    private Vector3 _prevLocalPosition;
+    [SerializeField] private Vector3 maxLocalRotation = Vector3.one * 360f;
 
     private Rigidbody _rb;
 
@@ -18,7 +16,7 @@ public class LimitRotation : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Quaternion clampedRot = MathsUtils.ClampRotation(transform.localRotation, maxRotation);
-        _rb.MoveRotation(clampedRot);
+        Quaternion clampedLocalRot = MathsUtils.ClampRotation(transform.localRotation, maxLocalRotation);
+        _rb.MoveRotation(clampedLocalRot);
     }
 }

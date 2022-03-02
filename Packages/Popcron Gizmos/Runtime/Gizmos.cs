@@ -360,7 +360,12 @@ namespace Popcron
         public static void Circle(Vector3 position, float radius, Camera camera, Color? color = null, bool dashed = false, int pointsCount = 16)
         {
             float offset = 0f;
-            Quaternion rotation = Quaternion.LookRotation(position - camera.transform.position);
+            Quaternion rotation = Quaternion.identity;
+            Vector3 deltaPos = position - camera.transform.position;
+            if (deltaPos.magnitude > 0)
+            {
+                rotation = Quaternion.LookRotation(deltaPos);
+            }
             Draw<PolygonDrawer>(color, dashed, position, pointsCount, radius, offset, rotation);
         }
 
