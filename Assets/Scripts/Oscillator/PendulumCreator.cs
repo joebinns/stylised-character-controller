@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PendulumCreator : MonoBehaviour
 {
@@ -122,12 +121,4 @@ public class PendulumCreator : MonoBehaviour
         }
     }
     */
-
-    public void Begin(InputAction.CallbackContext context)
-    {   
-        if (context.started)
-        {
-            started = true;
-        }
-    }
 }

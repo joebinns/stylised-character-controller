@@ -102,7 +102,7 @@ MonoBehaviour:
   _damper: 0
   _localPivotPosition: {x: 0, y: 10, z: 0}
   angularDisplacementMagnitude: 0
-  renderGizmos: 1
+  renderGizmos: 0
 --- !u!54 &1649764703930385159
 Rigidbody:
   m_ObjectHideFlags: 0

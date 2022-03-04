@@ -58,7 +58,11 @@ public class ToggleGizmos : MonoBehaviour
             for (int i = 0; i < oscillators.Length; i++)
             {
                 Oscillator oscillator = oscillators[i];
-                oscillator.renderGizmos = !baseAround;
+
+                if (oscillator != playerOscillator)
+                {
+                    oscillator.renderGizmos = !baseAround;
+                }               
             }
         }
     }
