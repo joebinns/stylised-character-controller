@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Sequentially creates a row of pre-defined pendulums.
+/// </summary>
 public class PendulumCreator : MonoBehaviour
 {
     [SerializeField] private GameObject pendulumPrefab;
@@ -18,6 +21,9 @@ public class PendulumCreator : MonoBehaviour
 
     [HideInInspector] public float popInDistance = 10f; 
 
+    /// <summary>
+    /// Instantiate all the pendulums, to which a scale of zero is given.
+    /// </summary>
     void Start()
     {
         t = new List<float>(new float[numPendulums]);
@@ -42,7 +48,6 @@ public class PendulumCreator : MonoBehaviour
             if (incrementally)
             {
                 pendulums[i].transform.localScale = Vector3.zero;
-                //pendulum.GetComponent<Renderer>().enabled = false;
             }
 
             TorsionalOscillator torsionalOscillator = pendulum.GetComponent<TorsionalOscillator>();
@@ -50,18 +55,14 @@ public class PendulumCreator : MonoBehaviour
 
             torsionalOscillator.transform.localRotation = Quaternion.Euler(angle, 0, 0);
         }
-
-        /*
-        if (incrementally)
-        {
-            StartCoroutine(ActivateIncrementally(pendulums, incrementalTime));
-        }
-        */
     }
 
     public bool started = false;
     private List<float> t;
     private List<float> prevLerp;
+    /// <summary>
+    /// Increase the scales of the pendulums over time until they are the default scale, and place the pendulums in a row.
+    /// </summary>
     private void Update()
     {
         for (int i = 0; i < numPendulums; i++)
@@ -110,15 +111,4 @@ public class PendulumCreator : MonoBehaviour
             }
         }
     }
-
-    /*
-    IEnumerator ActivateIncrementally(List<GameObject> pendulums, float delay)
-    {
-        for (int i = 0; i < numPendulums; i++)
-        {
-            //pendulums[i].GetComponent<Renderer>().enabled = true;
-            yield return new WaitForSeconds(delay);
-        }
-    }
-    */
 }

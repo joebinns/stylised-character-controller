@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// The properties to store for a generic sound.
+/// </summary>
 [System.Serializable]
 public class Sound
 {

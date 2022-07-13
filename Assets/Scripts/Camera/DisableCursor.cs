@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Simple script to disable cursor visibility during Play mode.
+/// </summary>
 public class DisableCursor : MonoBehaviour
 {
-    // Use this for initialization
+    /// <summary>
+    /// Disable cursor visibility during Play mode.
+    /// </summary>
     void Start()
     {
-        //Set Cursor to not be visible
         Cursor.visible = false;
     }
 }

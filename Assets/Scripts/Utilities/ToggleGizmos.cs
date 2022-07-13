@@ -4,11 +4,17 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Gizmos = Popcron.Gizmos;
 
+/// <summary>
+/// Various input-based toggles for Popcron.Gizmos.
+/// </summary>
 [ExecuteAlways]
 public class ToggleGizmos : MonoBehaviour
 {
     [SerializeField] private Oscillator playerOscillator;
 
+    /// <summary>
+    /// Gathers and initially disables all Popcron.Gizmos.
+    /// </summary>
     private void Start()
     {
         // Ensure Gizmos are enabled;
@@ -31,7 +37,10 @@ public class ToggleGizmos : MonoBehaviour
         }
     }
 
-    // Toggle torsional oscillators
+    /// <summary>
+    /// Toggles the Popcron.Gizmos belonging to all Torsional Oscillators.
+    /// </summary>
+    /// <param name="context">The input's context.</param>
     public void TorsionalOscillatorGizmosToggle(InputAction.CallbackContext context)
     {
         if (context.started) // Button down
@@ -47,7 +56,10 @@ public class ToggleGizmos : MonoBehaviour
         }
     }
 
-    // Toggle oscillators
+    /// <summary>
+    /// Toggles the Popcron.Gizmos belonging to all Oscillators.
+    /// </summary>
+    /// <param name="context">The input's context.</param>
     public void OscillatorGizmosToggle(InputAction.CallbackContext context)
     {
         if (context.started) // Button down
@@ -67,7 +79,10 @@ public class ToggleGizmos : MonoBehaviour
         }
     }
 
-    // Toggle player
+    /// <summary>
+    /// Toggles the Popcron.Gizmos belonging to the Player oscillator.
+    /// </summary>
+    /// <param name="context">The input's context.</param>
     public void PlayerGizmosToggle(InputAction.CallbackContext context)
     {
         if (context.started) // Button down
@@ -76,7 +91,10 @@ public class ToggleGizmos : MonoBehaviour
         }
     }
 
-    // Toggle all
+    /// <summary>
+    /// Toggles the Popcron.Gizmos belonging to all Oscillators and Torsional Oscillators.
+    /// </summary>
+    /// <param name="context">The input's context.</param>
     public void GizmosToggle(InputAction.CallbackContext context)
     {
         if (context.started) // Button down

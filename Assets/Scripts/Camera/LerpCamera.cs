@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Linearly interpolate the camera position over time to follow a series of pendulums.
+/// </summary>
 public class LerpCamera : MonoBehaviour
 {
     [SerializeField] private PendulumCreator pendulumCreator;
@@ -14,11 +17,17 @@ public class LerpCamera : MonoBehaviour
 
     private Vector3 originalPos;
 
+    /// <summary>
+    /// Declare the original position of the camera.
+    /// </summary>
     private void Start()
     {
         originalPos = transform.localPosition;
     }
 
+    /// <summary>
+    /// Lerp the camera, if the series of pendulums has begun creation.
+    /// </summary>
     void Update()
     {
         if (pendulumCreator.started == true)

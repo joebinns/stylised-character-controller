@@ -14120,6 +14120,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
@@ -20856,6 +20857,7 @@ MonoBehaviour:
   _stiffness: 480
   _damper: 12
   _mass: 1
+  renderGizmos: 1
 --- !u!23 &651830932
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -22269,6 +22271,7 @@ MonoBehaviour:
   _stiffness: 100
   _damper: 6
   _mass: 1
+  renderGizmos: 1
 --- !u!4 &1080291880
 Transform:
   m_ObjectHideFlags: 0
@@ -29176,6 +29179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b134582c92d9fef468ec98cd74fa15b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  constantVolume: 1
   _oscillator: {fileID: 1080291877}
   _conversion: 0.12
 --- !u!114 &1300612964
@@ -29219,10 +29223,6 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 1d966cfd-0cd4-4a79-887e-bf491b7591d8
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 21942d6a-92a6-4295-b8d9-a331ecd37271
-    m_ActionName: Player/Hand[/Mouse/delta,/Mouse/delta]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: df611dfd-f3c7-4fff-9c1a-46c14c289544
@@ -29283,6 +29283,34 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 95e7b27a-9d00-4249-941e-6a03a023af6e
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ce37f999-d23a-4296-a59e-31fbda2ab064
+    m_ActionName: Player/Toggle Player Gizmos[/Keyboard/f4]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a8e4c1cc-55f4-4bdf-9765-07962fcd5bed
+    m_ActionName: Player/Toggle Oscillator Gizmos[/Keyboard/f2]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c373efb6-6ccb-41be-b760-4667f8f2fe4d
+    m_ActionName: Player/Toggle Torsional Oscillator Gizmos[/Keyboard/f3]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3095876d-69d2-47a3-b604-3e196774aad7
+    m_ActionName: Player/Switch Camera[/Keyboard/f5]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ab9149a6-cb55-4363-a39f-0601ff120f46
+    m_ActionName: Player/Begin Pendulums[/Keyboard/f6]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 781bed3c-c769-42a6-a451-4aee3a29f931
+    m_ActionName: Player/Make Transition[/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1b2a0fcb-0be1-4a62-a18f-e9023ec78066
+    m_ActionName: Player/Revert Transition[/Keyboard/leftArrow]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -29304,6 +29332,7 @@ MonoBehaviour:
   _terrainLayer:
     serializedVersion: 2
     m_Bits: 64
+  _dustParticleSystem: {fileID: 0}
   _rideHeight: 2
   _rayToGroundLength: 3
   _rideSpringStrength: 200
@@ -30324,6 +30353,7 @@ MonoBehaviour:
   _stiffness: 480
   _damper: 12
   _mass: 1
+  renderGizmos: 1
 --- !u!23 &1515683775
 MeshRenderer:
   m_ObjectHideFlags: 0

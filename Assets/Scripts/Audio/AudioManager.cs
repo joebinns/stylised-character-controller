@@ -3,17 +3,21 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-//Credit to Brackeys youtube tutorial on Audio managers, as the majority of this code and learning how to use it was made by him.
+/// <summary>
+/// An Audio Manager. Based on Brackey's tutorial https://youtu.be/6OT43pvUyfY.
+/// </summary>
 public class AudioManager : MonoBehaviour
 {
     public Sound[] sounds;
 
     public static AudioManager instance;
-    //AudioManager
 
+    /// <summary>
+    /// Declare the properties of the sounds.
+    /// </summary>
     void Awake()
     {
-
+        
         if (instance == null)
             instance = this;
         else
@@ -36,6 +40,9 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Update the audio clips properties of the sounds.
+    /// </summary>
     private void Update()
     {
         foreach (Sound s in sounds)
@@ -46,6 +53,10 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Beginning playing a chosen sound.
+    /// </summary>
+    /// <param name="name">The name of the sound.</param>
     public void Play(string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
@@ -58,6 +69,11 @@ public class AudioManager : MonoBehaviour
         s.source.Play();
     }
 
+    /// <summary>
+    /// Get whether a sound is playing or not.
+    /// </summary>
+    /// <param name="name">The name of the sound.</param>
+    /// <returns>Whether the sound is playing or not.</returns>
     public bool IsPlaying(string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
@@ -70,18 +86,24 @@ public class AudioManager : MonoBehaviour
         return(s.source.isPlaying);
     }
 
+    /// <summary>
+    /// Play two sounds consecutively.
+    /// </summary>
+    /// <param name="name1">The name of the first sound to be played.</param>
+    /// <param name="name2">The name of the sound to be player after the first has finished.</param>
+    /// <returns></returns>
     public IEnumerator PlayQueued(string name1, string name2)
     {
         Sound s1 = Array.Find(sounds, sound => sound.name == name1);
         Sound s2 = Array.Find(sounds, sound => sound.name == name2);
         if (s1 == null)
         {
-            Debug.LogWarning("Sound: " + name + " not found");
+            Debug.LogWarning("Sound: " + name1 + " not found");
             yield return null;
         }
         if (s2 == null)
         {
-            Debug.LogWarning("Sound: " + name + " not found");
+            Debug.LogWarning("Sound: " + name2 + " not found");
             yield return null;
         }
 
@@ -95,10 +117,18 @@ public class AudioManager : MonoBehaviour
         s2.source.Play();
     }
 
-    //this addition to the code was made by me, the rest was from Brackeys tutorial
+    /// <summary>
+    /// Stop playing a sound.
+    /// </summary>
+    /// <param name="name">The name of the sound.</param>
     public void Stop(string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
+        if (s == null)
+        {
+            Debug.LogWarning("Sound: " + name + " not found");
+            return;
+        }
 
         s.source.Stop();
     }

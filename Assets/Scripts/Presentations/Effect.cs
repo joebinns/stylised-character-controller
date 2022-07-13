@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A spawn effect for an object which scales up the object with a bounce, plays a sound, and activates particle systems.
+/// </summary>
 [System.Serializable]
 public class Effect : MonoBehaviour
 {
@@ -13,6 +16,11 @@ public class Effect : MonoBehaviour
     public Vector3 _endScale;
     public bool isPlaying = false;
 
+    /// <summary>
+    /// Plays a sound effect for spawning a game object, and activates particle effects.
+    /// </summary>
+    /// <param name="anchor">The transform about which the effects should take place.</param>
+    /// <param name="activatedGameObject">The game object to spawn.</param>
     public void ActivateEffects(Transform anchor, GameObject activatedGameObject)
     {
         _t = 0f;
@@ -34,6 +42,9 @@ public class Effect : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Updates the scale of the game object when appropriate.
+    /// </summary>
     private void Update()
     {
         if (isPlaying)
@@ -42,6 +53,9 @@ public class Effect : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Lerps the scale and position of the spawned game object, with a bounce.
+    /// </summary>
     private float _t = 0f;
     private void ScaleUp(Vector3 startPos, Vector3 endPos, Vector3 endScale, float duration = 0.7f)
     {
@@ -65,6 +79,10 @@ public class Effect : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets the transform parent of the particle systems, such as to recycle a single particle system over multiple effects.
+    /// </summary>
+    /// <param name="parent">The anchor transform about which the particle systems should occur.</param>
     private void SetParent(Transform parent)
     {
         foreach (ParticleSystem particleSystem in particleSystems)

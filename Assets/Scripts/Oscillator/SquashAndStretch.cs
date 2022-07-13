@@ -36,7 +36,7 @@ public class SquashAndStretch : MonoBehaviour
     /// <summary>
     /// Calculates the squashed and stretched scale.
     /// </summary>
-    /// <returns>The volume maintained squashed and stretched local scale </returns>
+    /// <returns>The volume maintained squashed and stretched local scale.</returns>
     private Vector3 CalculateSquashedAndStretchedScale()
     {
         Vector3 rawOscillatorContribution = GetContributionFromOscillator();

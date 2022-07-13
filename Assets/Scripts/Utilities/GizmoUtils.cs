@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Gizmos = Popcron.Gizmos;
 
+/// <summary>
+/// Utilities for Popcorn.Gizmos, which are gizmos that can work even in compiled games.
+/// </summary>
 public static class GizmoUtils
 {
     // Source: https://forum.unity.com/threads/draw-3d-arc-in-gizmos.994453/
@@ -26,9 +29,6 @@ public static class GizmoUtils
 
         if (Mathf.Abs(rad1) >= 1E-6f) prevPoint = pivotAround(center, axis, vdiff, length, rad1);
 
-        //var oldColor = Gizmos.color;
-        //if (color != default) Gizmos.color = color;
-
         for (var seg = 1f; seg <= fsegs; seg++)
         {
             nextPoint = pivotAround(center, axis, vdiff, length, rad1 + delta * seg * inv_fsegs);
@@ -36,8 +36,6 @@ public static class GizmoUtils
             //Gizmos.DrawLine(prevPoint, nextPoint);
             prevPoint = nextPoint;
         }
-
-        //Gizmos.color = oldColor;
 
         return nextPoint;
     }
