@@ -8,6 +8,8 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class SquashAndStretch : MonoBehaviour
 {
+    public bool constantVolume = true;
+
     private Vector3 _localEquilibriumScale;
 
     [Tooltip("The oscillator that reacts to this object's physics.")]
@@ -34,12 +36,16 @@ public class SquashAndStretch : MonoBehaviour
     /// <summary>
     /// Calculates the squashed and stretched scale.
     /// </summary>
-    /// <returns>The volume maintained squashed and stretched local scale </returns>
+    /// <returns>The volume maintained squashed and stretched local scale.</returns>
     private Vector3 CalculateSquashedAndStretchedScale()
     {
         Vector3 rawOscillatorContribution = GetContributionFromOscillator();
-        Vector3 VolumeMaintainedOscillatorContribution = MaintainVolume(rawOscillatorContribution);
-        Vector3 localScale = _localEquilibriumScale + VolumeMaintainedOscillatorContribution;
+        Vector3 oscillatorContribution = rawOscillatorContribution;
+        if (constantVolume)
+        {
+            oscillatorContribution = MaintainVolume(rawOscillatorContribution);
+        }
+        Vector3 localScale = _localEquilibriumScale + oscillatorContribution;
         return (localScale);
     }
 

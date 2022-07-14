@@ -1,9 +1,15 @@
 using UnityEngine;
 using UnityEditor;
 
+/// <summary>
+/// Custom Unity inspector for Oscillator.cs.
+/// </summary>
 [CustomEditor(typeof(Oscillator), true)]
 public class OscillatorEditor : Editor
 {
+    /// <summary>
+    /// Draw the default inspector, with a clamped Vector3 on the forceScale.
+    /// </summary>
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();

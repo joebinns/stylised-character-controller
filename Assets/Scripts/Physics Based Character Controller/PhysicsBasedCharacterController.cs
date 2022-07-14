@@ -13,11 +13,12 @@ public class PhysicsBasedCharacterController : MonoBehaviour
     private Vector3 _rayDir = Vector3.down;
     private Vector3 _previousVelocity = Vector3.zero;
     private Vector2 _moveContext;
+    private ParticleSystem.EmissionModule _emission;
 
     [Header("Other:")]
     [SerializeField] private bool _adjustInputsToCameraAngle = false;
     [SerializeField] private LayerMask _terrainLayer;
-
+    [SerializeField] private ParticleSystem _dustParticleSystem;
 
     private bool _shouldMaintainHeight = true;
 
@@ -72,26 +73,32 @@ public class PhysicsBasedCharacterController : MonoBehaviour
     [SerializeField] private float _coyoteTime = 0.25f;
 
     /// <summary>
-    /// 
+    /// Prepare frequently used variables.
     /// </summary>
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
         _gravitationalForce = Physics.gravity * _rb.mass;
+
+        if (_dustParticleSystem)
+        {
+            _emission = _dustParticleSystem.emission; // Stores the module in a local variable
+            _emission.enabled = false; // Applies the new value directly to the Particle System
+        }
     }
 
     /// <summary>
-    /// 
+    /// Use the result of a Raycast to determine if the capsules distance from the ground is sufficiently close to the desired ride height such that the character can be considered 'grounded'.
     /// </summary>
-    /// <param name="rayHitGround"></param>
-    /// <param name="rayHit"></param>
-    /// <returns></returns>
+    /// <param name="rayHitGround">Whether or not the Raycast hit anything.</param>
+    /// <param name="rayHit">Information about the ray.</param>
+    /// <returns>Whether or not the player is considered grounded.</returns>
     private bool CheckIfGrounded(bool rayHitGround, RaycastHit rayHit)
     {
         bool grounded;
         if (rayHitGround == true)
         {
-            grounded = rayHit.distance <= _rideHeight * 1.1f; // 1.1f allows for greater leniancy (as the value will oscillate about the rideHeight).
+            grounded = rayHit.distance <= _rideHeight * 1.3f; // 1.3f allows for greater leniancy (as the value will oscillate about the rideHeight).
         }
         else
         {
@@ -101,10 +108,11 @@ public class PhysicsBasedCharacterController : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Gets the look desired direction for the character to look.
+    /// The method for determining the look direction is depends on the lookDirectionOption.
     /// </summary>
-    /// <param name="lookDirectionOption"></param>
-    /// <returns></returns>
+    /// <param name="lookDirectionOption">The factor which determines the look direction: velocity, acceleration or moveInput.</param>
+    /// <returns>The desired look direction.</returns>
     private Vector3 GetLookDirection(lookDirectionOptions lookDirectionOption)
     {
         Vector3 lookDirection = Vector3.zero;
@@ -131,8 +139,9 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         return lookDirection;
     }
 
+    private bool _prevGrounded = false;
     /// <summary>
-    /// 
+    /// Determines and plays the appropriate character sounds, particle effects, then calls the appropriate methods to move and float the character.
     /// </summary>
     private void FixedUpdate()
     {
@@ -149,6 +158,35 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         bool grounded = CheckIfGrounded(rayHitGround, rayHit);
         if (grounded == true)
         {
+            if (_prevGrounded == false)
+            {
+                if (!FindObjectOfType<AudioManager>().IsPlaying("Land"))
+                {
+                    FindObjectOfType<AudioManager>().Play("Land");
+                }
+
+            }
+
+            if (_moveInput.magnitude != 0)
+            {
+                if (!FindObjectOfType<AudioManager>().IsPlaying("Walking"))
+                {
+                    FindObjectOfType<AudioManager>().Play("Walking");
+                }
+            }
+            else
+            {
+                FindObjectOfType<AudioManager>().Stop("Walking");
+            }
+
+            if (_dustParticleSystem)
+            {
+                if (_emission.enabled == false)
+                {
+                    _emission.enabled = true; // Applies the new value directly to the Particle System                  
+                }
+            }
+
             _timeSinceUngrounded = 0f;
 
             if (_timeSinceJump > 0.2f)
@@ -158,6 +196,16 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         }
         else
         {
+            FindObjectOfType<AudioManager>().Stop("Walking");
+
+            if (_dustParticleSystem)
+            {
+                if (_emission.enabled == true)
+                {
+                    _emission.enabled = false; // Applies the new value directly to the Particle System
+                }
+            }
+
             _timeSinceUngrounded += Time.fixedDeltaTime;
         }
 
@@ -171,25 +219,29 @@ public class PhysicsBasedCharacterController : MonoBehaviour
 
         Vector3 lookDirection = GetLookDirection(_characterLookDirection);
         MaintainUpright(lookDirection, rayHit);
+
+        _prevGrounded = grounded;
     }
 
     /// <summary>
-    /// Perfom raycast to get distance to the ground.
+    /// Perfom raycast towards the ground.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Whether the ray hit the ground, and information about the ray.</returns>
     private (bool, RaycastHit) RaycastToGround()
     {
         RaycastHit rayHit;
         Ray rayToGround = new Ray(transform.position, _rayDir);
         bool rayHitGround = Physics.Raycast(rayToGround, out rayHit, _rayToGroundLength, _terrainLayer.value);
-        Debug.DrawRay(transform.position, _rayDir * _rayToGroundLength, Color.blue);
+        //Debug.DrawRay(transform.position, _rayDir * _rayToGroundLength, Color.blue);
         return (rayHitGround, rayHit);
     }
 
     /// <summary>
-    /// 
+    /// Determines the relative velocity of the character to the ground beneath,
+    /// Calculates and applies the oscillator force to bring the character towards the desired ride height.
+    /// Additionally applies the oscillator force to the squash and stretch oscillator, and any object beneath.
     /// </summary>
-    /// <param name="rayHit"></param>
+    /// <param name="rayHit">Information about the RaycastToGround.</param>
     private void MaintainHeight(RaycastHit rayHit)
     {
         Vector3 vel = _rb.velocity;
@@ -209,7 +261,7 @@ public class PhysicsBasedCharacterController : MonoBehaviour
         Vector3 oscillationForce = springForce * Vector3.down;
         _rb.AddForce(maintainHeightForce);
         _squashAndStretchOcillator.ApplyForce(oscillationForce);
-        Debug.DrawLine(transform.position, transform.position + (_rayDir * springForce), Color.yellow);
+        //Debug.DrawLine(transform.position, transform.position + (_rayDir * springForce), Color.yellow);
 
         // Apply force to objects beneath
         if (hitBody != null)
@@ -219,10 +271,10 @@ public class PhysicsBasedCharacterController : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Determines the desired y rotation for the character, with account for platform rotation.
     /// </summary>
-    /// <param name="yLookAt"></param>
-    /// <param name="rayHit"></param>
+    /// <param name="yLookAt">The input look rotation.</param>
+    /// <param name="rayHit">The rayHit towards the platform.</param>
     private void CalculateTargetRotation(Vector3 yLookAt, RaycastHit rayHit = new RaycastHit())
     {
         if (didLastRayHit)
@@ -276,10 +328,10 @@ public class PhysicsBasedCharacterController : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Adds torque to the character to keep the character upright, acting as a torsional oscillator (i.e. vertically flipped pendulum).
     /// </summary>
-    /// <param name="yLookAt"></param>
-    /// <param name="rayHit"></param>
+    /// <param name="yLookAt">The input look rotation.</param>
+    /// <param name="rayHit">The rayHit towards the platform.</param>
     private void MaintainUpright(Vector3 yLookAt, RaycastHit rayHit = new RaycastHit())
     {
         CalculateTargetRotation(yLookAt, rayHit);
@@ -299,18 +351,18 @@ public class PhysicsBasedCharacterController : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Reads the player movement input.
     /// </summary>
-    /// <param name="context"></param>
+    /// <param name="context">The move input's context.</param>
     public void MoveInputAction(InputAction.CallbackContext context)
     {
         _moveContext = context.ReadValue<Vector2>();
     }
 
     /// <summary>
-    /// 
+    /// Reads the player jump input.
     /// </summary>
-    /// <param name="context"></param>
+    /// <param name="context">The jump input's context.</param>
     public void JumpInputAction(InputAction.CallbackContext context)
     {
         float jumpContext = context.ReadValue<float>();
@@ -323,10 +375,10 @@ public class PhysicsBasedCharacterController : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Adjusts the input, so that the movement matches input regardless of camera rotation.
     /// </summary>
-    /// <param name="moveInput"></param>
-    /// <returns></returns>
+    /// <param name="moveInput">The player movement input.</param>
+    /// <returns>The camera corrected movement input.</returns>
     private Vector3 AdjustInputToFaceCamera(Vector3 moveInput)
     {
         float facing = Camera.main.transform.eulerAngles.y;
@@ -334,9 +386,10 @@ public class PhysicsBasedCharacterController : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Set the transform parent to be the result of RaycastToGround.
+    /// If the raycast didn't hit, then unset the transform parent.
     /// </summary>
-    /// <param name="rayHit"></param>
+    /// <param name="rayHit">The rayHit towards the platform.</param>
     private void SetPlatform(RaycastHit rayHit)
     {
         try
@@ -352,10 +405,10 @@ public class PhysicsBasedCharacterController : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Apply forces to move the character up to a maximum acceleration, with consideration to acceleration graphs.
     /// </summary>
-    /// <param name="moveInput"></param>
-    /// <param name="rayHit"></param>
+    /// <param name="moveInput">The player movement input.</param>
+    /// <param name="rayHit">The rayHit towards the platform.</param>
     private void CharacterMove(Vector3 moveInput, RaycastHit rayHit)
     {
         Vector3 m_UnitGoal = moveInput;
@@ -375,11 +428,11 @@ public class PhysicsBasedCharacterController : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Apply force to cause the character to perform a single jump, including coyote time and a jump input buffer.
     /// </summary>
-    /// <param name="jumpInput"></param>
-    /// <param name="grounded"></param>
-    /// <param name="rayHit"></param>
+    /// <param name="jumpInput">The player jump input.</param>
+    /// <param name="grounded">Whether or not the player is considered grounded.</param>
+    /// <param name="rayHit">The rayHit towards the platform.</param>
     private void CharacterJump(Vector3 jumpInput, bool grounded, RaycastHit rayHit)
     {
         _timeSinceJumpPressed += Time.fixedDeltaTime;
@@ -427,6 +480,8 @@ public class PhysicsBasedCharacterController : MonoBehaviour
                     _rb.AddForce(Vector3.up * _jumpForceFactor, ForceMode.Impulse); // This does not work very consistently... Jump height is affected by initial y velocity and y position relative to RideHeight... Want to adopt a fancier approach (more like PlayerMovement). A cheat fix to ensure consistency has been issued above...
                     _timeSinceJumpPressed = _jumpBuffer; // So as to not activate further jumps, in the case that the player lands before the jump timer surpasses the buffer.
                     _timeSinceJump = 0f;
+
+                    FindObjectOfType<AudioManager>().Play("Jump");
                 }
             }
         }
