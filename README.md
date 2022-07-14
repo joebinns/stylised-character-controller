@@ -17,6 +17,8 @@ The **character controller** is based on the floating capsule approach devised b
 - **Dithered silhouettes** appear on the character when obscured from view, letting the player know where they are at all times.
 - **Top down blob shadows** on characters make 3D platforming feel sharper, and they look great when combined with Unity's inbuilt shadows on the environment.
 - **Dust particles** appear when characters move, making the character feel more alive.
+- **Sound effects** play when the character moves and jumps, to bring everything together.
+- **Oscillators**, **Torsional Oscillators** and much more...
 
 ## Installation
 Open the project in Unity. Open the demo scene located at [*stylised-character-controller/Assets/Scenes/*](https://github.com/joebinns/stylised-character-controller/tree/main/Assets/Scenes).
@@ -42,6 +44,9 @@ The blob shadows use [Nyahoon Games'](http://nyahoon.com/products) asset [Dynami
 
 ### Path Creator
 The platforms follow paths using Sebastian Lague's very useful [Path Creator](https://github.com/SebLague/Path-Creator) (a project which I have previously contributed to). This has been adapted to work with [*Oscillator.cs*].
+
+### Sound Effects
+The sound effects and audio were kindly created and arranged by [Clara Summerton](mailto:clarasummerton@gmail.com).
 
 ### All else
 Is [my own](https://joebinns.com/).
