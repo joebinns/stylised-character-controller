@@ -24,7 +24,7 @@ The **character controller** is based on the floating capsule approach devised b
 Open the project in Unity. Open the demo scene located at [*stylised-character-controller/Assets/Scenes/*](https://github.com/joebinns/stylised-character-controller/tree/main/Assets/Scenes).
 
 ## Usage
-When running the project in the Game view, use <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> and <kbd>Space</kbd> to move and jump the character.
+When running the project in the Game view, use <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> and <kbd>Space</kbd> to move and jump the character. Press <kbd>F1</kbd> to toggle oscillator gizmos.
 
 ## Contributing
 1. Fork the repository.
