@@ -4,8 +4,8 @@ A **stylised physics based character controller** made in **Unity 3D**.
 Before you read on, get a hands on **feel** for the project over at [itch.io](https://joebinns.itch.io/stylised-character-controller).
 Additionally, watch the [demo](https://youtu.be/3GsXkzbfNBo) and listen to my exploration into [oscillators for game development](https://youtu.be/0gWJDWCvLUY).
 
-<img src="https://joebinns.com/documents/fake_thumbnails/stylised_character_controller_thumbnail_time.png" width="640" height="360">
-<img src="https://joebinns.com/documents/fake_thumbnails/the_joy_of_oscillators_thumbnail_time.png" width="640" height="360">
+[<img alt="Stylised Character Controller: Demo" width="503" src="https://joebinns.com/documents/fake_thumbnails/stylised_character_controller_thumbnail_time.png" />](https://youtu.be/3GsXkzbfNBo)
+[<img alt="Oscillators for Game Development" width="503" src="https://joebinns.com/documents/fake_thumbnails/the_joy_of_oscillators_thumbnail_time.png" />](https://youtu.be/0gWJDWCvLUY)
 
 The **character controller** is based on the floating capsule approach devised by [Toyful Games](https://www.toyfulgames.com/) for [Very Very Valet](https://www.toyfulgames.com/very-very-valet). In [a video](https://www.youtube.com/watch?v=qdskE8PJy6Q&ab_channel=ToyfulGames) from the team's development blog, the various techniques for the movement are outlined and explained. The video also provides snippets of code, though incomplete in places. The source code was not provided by Toyful Games due to it being tied up in the complex otherworkings of Very Very Valet. This project aims to be a (fanmade) independent pure re-creation of their physics based character controller.
 
